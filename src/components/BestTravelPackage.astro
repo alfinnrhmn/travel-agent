@@ -1,0 +1,170 @@
+---
+import PackageCard from './PackageCard.astro'
+import packagesData from '../data/packages.json'
+import dubaiImg from '../assets/dubai.jpg'
+import baliImg from '../assets/Bali.jpg'
+import romaImg from '../assets/Roma.jpg'
+import japanImg from '../assets/japan.jpg'
+
+const imageMap: Record<string, ImageMetadata> = {
+  'dubai.jpg': dubaiImg,
+  'Bali.jpg': baliImg,
+  'Roma.jpg': romaImg,
+  'japan.jpg': japanImg,
+}
+
+const categories = ['All', 'City', 'Beach', 'Mountain', 'Adventure']
+---
+
+<section id="packages" class="best-packages">
+  <div class="package-controls">
+    <div class="section-heading">
+      <h2>Best Travel Package</h2>
+      <p>From tropical beaches to mountain hideaways these are the trips travelers are booking right now.</p>
+    </div>
+
+    <div class="filter-tabs" id="filter-tabs">
+      {categories.map((category, index) => (
+        <button class:list={['filter-button', { 'is-active': index === 0 }]} type="button" data-category={category} aria-pressed={index === 0 ? 'true' : 'false'}>
+          {category}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="package-grid" id="package-grid">
+    {packagesData.map((pkg) => (
+      <div class="card-slot" data-category={pkg.category}>
+        <PackageCard
+          slug={pkg.slug}
+          name={pkg.name}
+          location={pkg.location}
+          duration={pkg.duration}
+          price={pkg.price}
+          rating={pkg.rating}
+          image={imageMap[pkg.image]}
+        />
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .best-packages {
+    display: flex;
+    width: min(100%, 1354px);
+    margin: 180px auto 0;
+    padding-block: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 83px;
+  }
+
+  .package-controls {
+    display: flex;
+    width: min(100%, 814px);
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+  }
+
+  .section-heading {
+    display: flex;
+    width: 100%;
+    padding-block: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #d7d7d7;
+  }
+
+  .section-heading h2 {
+    width: 100%;
+    color: #50635f;
+    font-family: Caudex, serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .section-heading p {
+    width: 100%;
+    color: #50635f;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .filter-button {
+    display: inline-flex;
+    min-width: 74px;
+    padding: 8px 18px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #818588;
+    background: #f1f5f9;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+    transition: color 200ms ease, background-color 200ms ease;
+  }
+
+  .filter-button.is-active,
+  .filter-button:hover { color: white; background: #50635f; }
+
+  .package-grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 325px));
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .card-slot { min-width: 0; }
+
+  @media (max-width: 1199px) {
+    .package-grid { grid-template-columns: repeat(2, minmax(0, 325px)); }
+  }
+
+  @media (max-width: 699px) {
+    .best-packages { width: min(100%, 420px); gap: 56px; }
+    .section-heading h2 { font-size: 38px; }
+    .section-heading p, .filter-button { font-size: 17px; }
+    .filter-tabs { gap: 10px; }
+    .package-grid { grid-template-columns: minmax(0, 325px); }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('#filter-tabs button')
+  const cards = document.querySelectorAll<HTMLElement>('#package-grid > div')
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      buttons.forEach((item) => {
+        item.classList.remove('is-active')
+        item.setAttribute('aria-pressed', 'false')
+      })
+      button.classList.add('is-active')
+      button.setAttribute('aria-pressed', 'true')
+
+      const category = button.dataset.category
+      cards.forEach((card) => {
+        card.hidden = category !== 'All' && card.dataset.category !== category
+      })
+    })
+  })
+</script>

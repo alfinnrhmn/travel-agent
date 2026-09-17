@@ -1,0 +1,943 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import Navbar from '../../components/Navbar.astro'
+import Footer from '../../components/Footer.astro'
+import PackageCard from '../../components/PackageCard.astro'
+import PackageListingHero from '../../components/PackageListingHero.astro'
+import packagesData from '../../data/packages.json'
+import pageOnlyProducts from '../../data/package-page-products.json'
+
+import dubaiImg from '../../assets/dubai.jpg'
+import baliImg from '../../assets/Bali.jpg'
+import romaImg from '../../assets/Roma.jpg'
+import japanImg from '../../assets/japan.jpg'
+import prambananImg from '../../assets/Prambanan.jpg'
+import minangImg from '../../assets/Minang.jpg'
+import rajaAmpatImg from '../../assets/Raja ampat.jpg'
+import bromoImg from '../../assets/bromo.jpg'
+import italyCoastImg from '../../assets/Italy2.jpg'
+import italyColosseumImg from '../../assets/italy3.jpg'
+import japanHakoneImg from '../../assets/Japan 2.jpg'
+import uaeAtlantisImg from '../../assets/UEA2.jpg'
+import uaeMosqueImg from '../../assets/UEA3.jpg'
+
+const catalogueProducts = [...packagesData, ...pageOnlyProducts]
+
+const imageMap: Record<string, ImageMetadata> = {
+  'dubai.jpg': dubaiImg,
+  'Bali.jpg': baliImg,
+  'Roma.jpg': romaImg,
+  'japan.jpg': japanImg,
+  'Prambanan.jpg': prambananImg,
+  'Minang.jpg': minangImg,
+  'Raja ampat.jpg': rajaAmpatImg,
+  'bromo.jpg': bromoImg,
+  'Italy2.jpg': italyCoastImg,
+  'italy3.jpg': italyColosseumImg,
+  'Japan 2.jpg': japanHakoneImg,
+  'UEA2.jpg': uaeAtlantisImg,
+  'UEA3.jpg': uaeMosqueImg,
+}
+
+const packageCountries: Record<string, string> = {
+  'dubai-luxury-trip': 'UAE',
+  'bali-paradise-escape': 'Indonesia',
+  'roman-holiday-escape': 'Italy',
+  'tokyo-sakura-escape': 'Japan',
+  'prambanan-heritage-journey': 'Indonesia',
+  'minangkabau-cultural-escape': 'Indonesia',
+  'raja-ampat-island-escape': 'Indonesia',
+  'mount-bromo-sunrise-adventure': 'Indonesia',
+  'cinque-terre-coastal-escape': 'Italy',
+  'colosseum-heritage-journey': 'Italy',
+  'hakone-torii-retreat': 'Japan',
+  'atlantis-palm-luxury-escape': 'UAE',
+  'abu-dhabi-grand-mosque-journey': 'UAE',
+}
+
+const categories = ['All', 'City', 'Beach', 'Mountain', 'Adventure']
+const countries = ['Indonesia', 'Italy', 'Japan', 'UAE']
+const productsPerPage = 8
+const initialPageCount = Math.ceil(catalogueProducts.length / productsPerPage)
+const minimumPrice = Math.min(...catalogueProducts.map((item) => item.price))
+const maximumPrice = Math.max(...catalogueProducts.map((item) => item.price))
+const aiPackageKnowledge = catalogueProducts.map((item) => ({
+  slug: item.slug,
+  name: item.name,
+  country: packageCountries[item.slug],
+  location: item.location,
+  category: item.category,
+  duration: item.duration,
+  price: item.price,
+  rating: item.rating,
+  image: imageMap[item.image].src,
+  description: item.description,
+  itinerary: item.itinerary,
+  included: item.included,
+}))
+---
+
+<Layout title="Travel Packages — Tripova" description="Browse Tripova travel packages by destination, category, and price.">
+  <Navbar />
+
+  <main class="package-page">
+    <PackageListingHero />
+
+    <section id="all-packages" class="package-catalogue" aria-labelledby="catalogue-title">
+      <header class="catalogue-heading">
+        <p>Find your next story</p>
+        <h2 id="catalogue-title">Tour Packages</h2>
+        <span>Filter every journey by travel style, destination, and the budget that works for you.</span>
+      </header>
+
+      <div class="catalogue-panel">
+        <aside class="filter-sidebar" aria-label="Package filters">
+          <div class="sidebar-title">
+            <div>
+              <p>Filter Packages</p>
+              <span>Refine your journey</span>
+            </div>
+            <button id="reset-filters" type="button">Reset</button>
+          </div>
+
+          <div class="filter-group price-filter">
+            <div class="filter-label">
+              <h3>Price Range</h3>
+              <span>Per person</span>
+            </div>
+
+            <div class="price-values" aria-live="polite">
+              <output id="minimum-price-label" for="minimum-price">${minimumPrice.toLocaleString('en-US')}</output>
+              <output id="maximum-price-label" for="maximum-price">${maximumPrice.toLocaleString('en-US')}</output>
+            </div>
+
+            <div class="range-control">
+              <div class="range-track"></div>
+              <div id="range-fill" class="range-fill"></div>
+              <input id="minimum-price" type="range" min={minimumPrice} max={maximumPrice} value={minimumPrice} step="10" aria-label="Minimum package price" />
+              <input id="maximum-price" type="range" min={minimumPrice} max={maximumPrice} value={maximumPrice} step="10" aria-label="Maximum package price" />
+            </div>
+          </div>
+
+          <fieldset class="filter-group country-filter">
+            <legend>Destination</legend>
+            <p>Choose one or more countries</p>
+            <div class="country-options">
+              {countries.map((country) => (
+                <label>
+                  <span>{country}</span>
+                  <input type="checkbox" name="country" value={country} checked />
+                  <i aria-hidden="true">
+                    <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="m2.5 7 3 3 6-6"></path></svg>
+                  </i>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="ai-planner-card">
+            <div class="ai-planner-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 13.8 8.2 19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path><path d="m18.5 15 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"></path></svg>
+            </div>
+            <div class="ai-planner-copy">
+              <span class="ai-badge"><i></i> AI Trip Planner</span>
+              <h3>Build a trip around you.</h3>
+              <p>Ask Tripova AI to combine your destination, budget, and travel style into a custom plan.</p>
+              <button id="open-ai-planner" type="button">
+                Start planning
+                <span aria-hidden="true">&#8599;</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="catalogue-results">
+          <div class="result-toolbar">
+            <div id="package-filter-tabs" class="filter-tabs" aria-label="Filter packages by category">
+              {categories.map((category, index) => (
+                <button
+                  type="button"
+                  class:list={['filter-button', { 'is-active': index === 0 }]}
+                  data-category={category}
+                  aria-pressed={index === 0 ? 'true' : 'false'}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+            <p id="results-count">{catalogueProducts.length} packages found</p>
+          </div>
+
+          <div id="catalogue-grid" class="package-grid">
+            {catalogueProducts.map((pkg, index) => (
+              <div
+                class="package-slot"
+                data-category={pkg.category}
+                data-country={packageCountries[pkg.slug]}
+                data-price={pkg.price}
+                hidden={index >= productsPerPage}
+              >
+                <PackageCard
+                  slug={pkg.slug}
+                  name={pkg.name}
+                  location={pkg.location}
+                  duration={pkg.duration}
+                  price={pkg.price}
+                  rating={pkg.rating}
+                  image={imageMap[pkg.image]}
+                />
+              </div>
+            ))}
+          </div>
+
+          <nav
+            id="package-pagination"
+            class="package-pagination"
+            aria-label="Package catalogue pages"
+            data-page-size={productsPerPage}
+          >
+            <button
+              type="button"
+              class="pagination-button pagination-arrow"
+              aria-label="Go to previous page"
+              disabled
+            >
+              <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"></path></svg>
+            </button>
+            <div class="pagination-pages">
+              {Array.from({ length: initialPageCount }, (_, index) => (
+                <button
+                  type="button"
+                  class:list={['pagination-button pagination-number', { 'is-active': index === 0 }]}
+                  aria-label={`Go to page ${index + 1}`}
+                  aria-current={index === 0 ? 'page' : undefined}
+                  data-page={index + 1}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              class="pagination-button pagination-arrow"
+              aria-label="Go to next page"
+              disabled={initialPageCount <= 1}
+            >
+              <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"></path></svg>
+            </button>
+          </nav>
+
+          <div id="empty-results" class="empty-results" hidden>
+            <span aria-hidden="true">⌁</span>
+            <h3>No packages match these filters</h3>
+            <p>Adjust the price, category, or destination to see more journeys.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="ai-package-knowledge" hidden data-packages={JSON.stringify(aiPackageKnowledge)}></div>
+
+    <dialog id="ai-planner-dialog" class="ai-planner-dialog" aria-labelledby="ai-planner-title">
+      <div class="ai-chat-shell">
+        <header class="ai-chat-header">
+          <div class="ai-chat-brand">
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 13.8 8.2 19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"></path><path d="m18.5 15 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"></path></svg>
+            </span>
+            <div>
+              <h2 id="ai-planner-title">Tripova AI Planner</h2>
+              <p><i></i> Powered by the current package catalogue</p>
+            </div>
+          </div>
+          <button id="close-ai-planner" class="ai-close-button" type="button" aria-label="Close AI planner">×</button>
+        </header>
+
+        <div id="ai-chat-messages" class="ai-chat-messages" aria-live="polite">
+          <div class="ai-message is-assistant">
+            <span class="message-avatar">AI</span>
+            <div class="message-bubble">Hi! Tell me where you want to go, your budget, trip length, and travel style. I’ll build a plan using Tripova’s available packages.</div>
+          </div>
+        </div>
+
+        <div id="ai-prompt-suggestions" class="ai-prompt-suggestions" aria-label="Suggested questions">
+          <button type="button" data-prompt="Plan a 4-day Bali beach trip under $500">4-day Bali under $500</button>
+          <button type="button" data-prompt="I want a 6-day city escape in Italy">6-day Italy city escape</button>
+          <button type="button" data-prompt="Create an adventure plan for UAE">Adventure in UAE</button>
+        </div>
+
+        <form id="ai-chat-form" class="ai-chat-form">
+          <label for="ai-chat-input" class="sr-only">Ask Tripova AI to build a custom plan</label>
+          <textarea id="ai-chat-input" rows="1" placeholder="Example: Plan a romantic Bali trip for two under $800..." required></textarea>
+          <button type="submit" aria-label="Send message">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m4 4 17 8-17 8 3-8-3-8Z"></path><path d="M7 12h14"></path></svg>
+          </button>
+        </form>
+        <p class="ai-chat-footnote">Frontend catalogue assistant · Ready for future AI API and database connection</p>
+      </div>
+    </dialog>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .package-page { overflow: hidden; background: white; }
+
+  .package-catalogue {
+    width: calc(100% - 32px);
+    margin: 144px auto 0;
+  }
+
+  .catalogue-heading {
+    display: flex;
+    width: min(100%, 814px);
+    margin: 0 auto 64px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .catalogue-heading > p { color: #8b8b87; font: 600 13px/1.4 'Open Sans', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; }
+  .catalogue-heading h2 { margin-top: 8px; color: #50635f; font: 700 48px/1.2 Caudex, serif; }
+  .catalogue-heading > span { max-width: 650px; margin-top: 10px; color: #626562; font: 400 17px/1.65 'Open Sans', sans-serif; }
+
+  .catalogue-panel {
+    display: grid;
+    min-height: calc(100svh - 32px);
+    grid-template-columns: clamp(260px, 18vw, 310px) minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(22px, 2vw, 36px);
+    padding: clamp(22px, 2vw, 32px);
+    border: 1px solid #e6e9e7;
+    border-radius: 30px;
+    background: #f5f7f6;
+  }
+
+  .filter-sidebar {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid #e1e5e3;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 8px 32px rgb(48 61 57 / 6%);
+  }
+
+  .sidebar-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 22px 20px 18px; border-bottom: 1px solid #e5e8e6; }
+  .sidebar-title p { color: #2c2c2a; font: 700 18px/1.3 'Open Sans', sans-serif; }
+  .sidebar-title span { display: block; margin-top: 3px; color: #929292; font: 400 12px/1.4 'Open Sans', sans-serif; }
+  .sidebar-title button { margin-top: 2px; color: #50635f; font: 600 12px/1.4 'Open Sans', sans-serif; }
+  .sidebar-title button:hover { text-decoration: underline; }
+
+  .filter-group { padding: 22px 20px; border-bottom: 1px solid #e5e8e6; }
+  .filter-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .filter-label h3, .country-filter legend { color: #2c2c2a; font: 700 15px/1.4 'Open Sans', sans-serif; }
+  .filter-label span, .country-filter > p { color: #929292; font: 400 11px/1.4 'Open Sans', sans-serif; }
+  .country-filter > p { margin-top: 3px; }
+
+  .price-values { display: flex; align-items: center; justify-content: space-between; margin-top: 22px; }
+  .price-values output { min-width: 66px; padding: 6px 9px; border-radius: 7px; color: white; background: #50635f; font: 600 12px/1 'Open Sans', sans-serif; text-align: center; }
+  .range-control { position: relative; height: 22px; margin-top: 14px; }
+  .range-track, .range-fill { position: absolute; top: 9px; right: 0; left: 0; height: 4px; border-radius: 99px; }
+  .range-track { background: #dfe5e2; }
+  .range-fill { background: #50635f; }
+  .range-control input { position: absolute; inset: 0; width: 100%; height: 22px; margin: 0; appearance: none; pointer-events: none; background: transparent; }
+  .range-control input::-webkit-slider-thumb { width: 17px; height: 17px; appearance: none; border: 3px solid white; border-radius: 50%; background: #50635f; box-shadow: 0 0 0 1px #50635f; pointer-events: auto; cursor: grab; }
+  .range-control input::-moz-range-thumb { width: 12px; height: 12px; border: 3px solid white; border-radius: 50%; background: #50635f; box-shadow: 0 0 0 1px #50635f; pointer-events: auto; cursor: grab; }
+  .range-control input::-moz-range-track { background: transparent; }
+
+  .country-options { display: flex; margin-top: 16px; flex-direction: column; gap: 13px; }
+  .country-options label { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #555955; font: 500 14px/1.4 'Open Sans', sans-serif; cursor: pointer; }
+  .country-options input { position: absolute; opacity: 0; pointer-events: none; }
+  .country-options i { display: grid; width: 20px; height: 20px; place-items: center; border: 1px solid #b9c2be; border-radius: 5px; color: transparent; background: white; transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease; }
+  .country-options input:checked + i { border-color: #50635f; color: white; background: #50635f; }
+  .country-options input:focus-visible + i { outline: 2px solid #50635f; outline-offset: 2px; }
+
+  .ai-planner-card { display: flex; gap: 12px; padding: 20px; color: white; background: linear-gradient(145deg, #50635f, #334541); }
+  .ai-planner-icon { display: grid; width: 38px; height: 38px; flex: none; place-items: center; border: 1px solid rgb(255 255 255 / 25%); border-radius: 12px; background: rgb(255 255 255 / 10%); }
+  .ai-planner-copy { min-width: 0; }
+  .ai-badge { display: inline-flex; align-items: center; gap: 6px; color: #e8eee9; font: 600 10px/1.3 'Open Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+  .ai-badge i, .ai-chat-brand p i { width: 6px; height: 6px; border-radius: 50%; background: #b9e5b6; box-shadow: 0 0 0 4px rgb(185 229 182 / 12%); }
+  .ai-planner-copy h3 { margin-top: 8px; font: 700 15px/1.35 'Open Sans', sans-serif; }
+  .ai-planner-copy p { margin-top: 6px; color: rgb(255 255 255 / 72%); font: 400 11px/1.5 'Open Sans', sans-serif; }
+  .ai-planner-copy > button { display: flex; width: 100%; margin-top: 14px; padding: 9px 11px; align-items: center; justify-content: space-between; border-radius: 8px; color: #50635f; background: white; font: 700 11px/1.2 'Open Sans', sans-serif; transition: transform 180ms ease, background-color 180ms ease; }
+  .ai-planner-copy > button:hover { background: #f1f5f2; transform: translateY(-1px); }
+
+  .catalogue-results { width: 100%; min-width: 0; }
+  .result-toolbar { display: flex; min-height: 48px; margin-bottom: 28px; align-items: center; justify-content: space-between; gap: 18px; }
+  .filter-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .filter-button { display: inline-flex; min-width: 68px; padding: 8px 16px; align-items: center; justify-content: center; border-radius: 8px; color: #818588; background: white; font: 600 15px/1.35 'Open Sans', sans-serif; box-shadow: inset 0 0 0 1px #e4e8e6; transition: color 200ms ease, background-color 200ms ease, box-shadow 200ms ease; }
+  .filter-button.is-active, .filter-button:hover { color: white; background: #50635f; box-shadow: inset 0 0 0 1px #50635f; }
+  #results-count { flex: none; color: #777d79; font: 500 12px/1.4 'Open Sans', sans-serif; }
+
+  .package-grid { display: grid; width: 100%; grid-template-columns: repeat(auto-fill, minmax(280px, 325px)); align-items: start; justify-content: start; gap: 24px 18px; }
+  .package-slot { min-width: 0; }
+  .package-slot :global(.package-card) { width: 100%; max-width: 325px; }
+  .package-slot[hidden] { display: none; }
+  .package-pagination { display: flex; width: 100%; margin-top: 40px; align-items: center; justify-content: center; gap: 10px; }
+  .package-pagination[hidden] { display: none; }
+  :global(.pagination-pages) { display: flex; height: 52px; padding-inline: 8px; align-items: center; justify-content: center; gap: 0; border-radius: 999px; background: #ededed; }
+  :global(.pagination-button) { display: grid; width: 54px; height: 52px; flex: none; place-items: center; border: 0; border-radius: 10px; color: #727472; background: transparent; font: 500 17px/1 'Open Sans', sans-serif; transition: color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
+  :global(.pagination-number:hover) { color: #50635f; background: rgb(255 255 255 / 62%); }
+  :global(.pagination-button.is-active) { position: relative; z-index: 1; width: 56px; height: 56px; color: white; background: #50635f; box-shadow: 0 5px 16px rgb(80 99 95 / 35%); }
+  :global(.pagination-arrow) { width: 52px; height: 52px; border-radius: 50%; color: #50635f; background: #ededed; }
+  :global(.pagination-arrow:hover:not(:disabled)) { color: white; background: #50635f; transform: translateY(-1px); }
+  :global(.pagination-arrow svg) { width: 20px; height: 20px; pointer-events: none; }
+  :global(.pagination-button:disabled) { color: #aeb1af; opacity: 0.72; cursor: not-allowed; transform: none; }
+  .empty-results { padding: 80px 24px; border: 1px dashed #cdd4d1; border-radius: 20px; color: #68706d; background: white; text-align: center; }
+  .empty-results > span { display: block; color: #50635f; font-size: 42px; }
+  .empty-results h3 { margin-top: 8px; color: #2c2c2a; font: 700 20px/1.4 'Open Sans', sans-serif; }
+  .empty-results p { margin-top: 6px; font: 400 14px/1.5 'Open Sans', sans-serif; }
+
+  .ai-planner-dialog {
+    box-sizing: border-box;
+    position: fixed;
+    inset: auto 24px 24px auto;
+    z-index: 80;
+    width: clamp(520px, 50vw, 820px);
+    height: min(820px, calc(100dvh - 48px));
+    min-width: 420px;
+    min-height: 520px;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    resize: both;
+    border: 0;
+    background: transparent;
+  }
+
+  .ai-planner-dialog::backdrop {
+    background: rgb(0 0 0 / 8%);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+  }
+  .ai-chat-shell { position: relative; z-index: 1; display: flex; width: 100%; height: 100%; min-height: 0; overflow: hidden; flex-direction: column; border: 1px solid #dce2df; border-radius: 24px; background: #f6f8f7; }
+  .ai-chat-header { display: flex; min-height: 84px; padding: 18px 20px; align-items: center; justify-content: space-between; gap: 18px; color: white; background: #50635f; cursor: grab; touch-action: none; user-select: none; }
+  .ai-chat-header:active, .ai-planner-dialog.is-dragging .ai-chat-header { cursor: grabbing; }
+  .ai-chat-brand { display: flex; min-width: 0; align-items: center; gap: 12px; }
+  .ai-chat-brand > span { display: grid; width: 46px; height: 46px; flex: none; place-items: center; border: 1px solid rgb(255 255 255 / 22%); border-radius: 14px; background: rgb(255 255 255 / 10%); }
+  .ai-chat-brand h2 { font: 700 20px/1.25 Caudex, serif; }
+  .ai-chat-brand p { display: flex; margin-top: 4px; align-items: center; gap: 7px; color: rgb(255 255 255 / 70%); font: 400 11px/1.4 'Open Sans', sans-serif; }
+  .ai-close-button { display: grid; width: 36px; height: 36px; flex: none; place-items: center; border: 1px solid rgb(255 255 255 / 20%); border-radius: 50%; color: white; font: 300 26px/1 sans-serif; }
+  .ai-close-button:hover { background: rgb(255 255 255 / 12%); }
+  .ai-chat-messages { display: flex; min-height: 0; padding: 24px; flex: 1; flex-direction: column; gap: 16px; overflow-y: auto; scroll-behavior: smooth; }
+  .ai-message { display: flex; max-width: 100%; align-items: flex-start; gap: 9px; }
+  .ai-message.is-user { align-self: flex-end; flex-direction: row-reverse; }
+  .ai-message.is-user { max-width: 88%; }
+  .message-avatar { display: grid; width: 30px; height: 30px; flex: none; place-items: center; border-radius: 9px; color: white; background: #50635f; font: 700 9px/1 'Open Sans', sans-serif; }
+  .ai-message.is-user .message-avatar { color: #50635f; background: #e2e9e6; }
+  .message-bubble { padding: 12px 14px; border: 1px solid #e1e6e3; border-radius: 4px 14px 14px 14px; color: #424744; background: white; font: 400 13px/1.6 'Open Sans', sans-serif; white-space: pre-line; box-shadow: 0 5px 18px rgb(48 61 57 / 5%); }
+  .ai-message.is-user .message-bubble { border-color: #50635f; border-radius: 14px 4px 14px 14px; color: white; background: #50635f; }
+  .ai-message.is-typing .message-bubble { display: flex; gap: 4px; padding-block: 16px; }
+  .ai-message.is-typing i { width: 6px; height: 6px; border-radius: 50%; background: #8c9995; animation: ai-dot 900ms infinite alternate; }
+  .ai-message.is-typing i:nth-child(2) { animation-delay: 150ms; }
+  .ai-message.is-typing i:nth-child(3) { animation-delay: 300ms; }
+  .ai-related-products { display: flex; width: min(100%, 520px); margin-top: 14px; flex-direction: column; gap: 8px; white-space: normal; }
+  .ai-related-heading { color: #50635f; font: 700 11px/1.4 'Open Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+  .ai-related-card { display: grid; min-height: 82px; overflow: hidden; grid-template-columns: 92px minmax(0, 1fr) 34px; align-items: center; border: 1px solid #dfe5e2; border-radius: 12px; color: #2c2c2a; background: #f8faf9; transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+  .ai-related-card:hover { border-color: #50635f; transform: translateY(-1px); box-shadow: 0 8px 22px rgb(48 61 57 / 10%); }
+  .ai-related-card img { width: 92px; height: 82px; object-fit: cover; }
+  .ai-related-copy { min-width: 0; padding: 10px 12px; }
+  .ai-related-copy h4 { overflow: hidden; color: #2c2c2a; font: 700 13px/1.35 'Open Sans', sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+  .ai-related-copy p { margin-top: 3px; overflow: hidden; color: #858b88; font: 400 10px/1.35 'Open Sans', sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+  .ai-related-copy strong { display: block; margin-top: 7px; color: #50635f; font: 700 13px/1 'Open Sans', sans-serif; }
+  .ai-related-open { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; color: white; background: #50635f; font: 700 15px/1 'Open Sans', sans-serif; }
+
+  /* Messages and product cards are generated in the browser, so their selectors must remain global. */
+  .ai-chat-messages :global(.ai-message) { display: flex; max-width: 100%; align-items: flex-start; gap: 9px; }
+  .ai-chat-messages :global(.ai-message.is-user) { max-width: 88%; align-self: flex-end; flex-direction: row-reverse; }
+  .ai-chat-messages :global(.message-avatar) { display: grid; width: 30px; height: 30px; flex: none; place-items: center; border-radius: 9px; color: white; background: #50635f; font: 700 9px/1 'Open Sans', sans-serif; }
+  .ai-chat-messages :global(.ai-message.is-user) :global(.message-avatar) { color: #50635f; background: #e2e9e6; }
+  .ai-chat-messages :global(.message-bubble) { padding: 12px 14px; border: 1px solid #e1e6e3; border-radius: 4px 14px 14px 14px; color: #424744; background: white; font: 400 13px/1.6 'Open Sans', sans-serif; white-space: pre-line; box-shadow: 0 5px 18px rgb(48 61 57 / 5%); }
+  .ai-chat-messages :global(.ai-message.is-user) :global(.message-bubble) { border-color: #50635f; border-radius: 14px 4px 14px 14px; color: white; background: #50635f; }
+  .ai-chat-messages :global(.ai-message.is-typing) :global(.message-bubble) { display: flex; gap: 4px; padding-block: 16px; }
+  .ai-chat-messages :global(.ai-message.is-typing i) { width: 6px; height: 6px; border-radius: 50%; background: #8c9995; animation: ai-dot 900ms infinite alternate; }
+  .ai-chat-messages :global(.ai-message.is-typing i:nth-child(2)) { animation-delay: 150ms; }
+  .ai-chat-messages :global(.ai-message.is-typing i:nth-child(3)) { animation-delay: 300ms; }
+  .ai-chat-messages :global(.ai-related-products) { display: flex; width: min(100%, 520px); margin-top: 14px; flex-direction: column; gap: 8px; white-space: normal; }
+  .ai-chat-messages :global(.ai-related-heading) { color: #50635f; font: 700 11px/1.4 'Open Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+  .ai-chat-messages :global(.ai-related-card) { display: grid; min-height: 82px; overflow: hidden; grid-template-columns: 92px minmax(0, 1fr) 34px; align-items: center; border: 1px solid #dfe5e2; border-radius: 12px; color: #2c2c2a; background: #f8faf9; transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+  .ai-chat-messages :global(.ai-related-card:hover) { border-color: #50635f; transform: translateY(-1px); box-shadow: 0 8px 22px rgb(48 61 57 / 10%); }
+  .ai-chat-messages :global(.ai-related-card img) { width: 92px; height: 82px; object-fit: cover; }
+  .ai-chat-messages :global(.ai-related-copy) { min-width: 0; padding: 10px 12px; }
+  .ai-chat-messages :global(.ai-related-copy h4) { overflow: hidden; color: #2c2c2a; font: 700 13px/1.35 'Open Sans', sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+  .ai-chat-messages :global(.ai-related-copy p) { margin-top: 3px; overflow: hidden; color: #858b88; font: 400 10px/1.35 'Open Sans', sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+  .ai-chat-messages :global(.ai-related-copy strong) { display: block; margin-top: 7px; color: #50635f; font: 700 13px/1 'Open Sans', sans-serif; }
+  .ai-chat-messages :global(.ai-related-open) { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; color: white; background: #50635f; font: 700 15px/1 'Open Sans', sans-serif; }
+  .ai-prompt-suggestions { display: flex; padding: 0 20px 12px; gap: 8px; overflow-x: auto; }
+  .ai-prompt-suggestions button { flex: none; padding: 8px 11px; border: 1px solid #d8dfdc; border-radius: 999px; color: #59625e; background: white; font: 600 10px/1.3 'Open Sans', sans-serif; }
+  .ai-prompt-suggestions button:hover { border-color: #50635f; color: #50635f; }
+  .ai-chat-form { display: flex; margin: 0 20px; padding: 7px 7px 7px 15px; align-items: flex-end; gap: 10px; border: 1px solid #d7dedb; border-radius: 16px; background: white; box-shadow: 0 8px 30px rgb(48 61 57 / 8%); }
+  .ai-chat-form textarea { width: 100%; max-height: 110px; padding-block: 8px; resize: none; color: #2c2c2a; background: transparent; outline: none; font: 400 13px/1.5 'Open Sans', sans-serif; }
+  .ai-chat-form textarea::placeholder { color: #9ca39f; }
+  .ai-chat-form button { display: grid; width: 40px; height: 40px; flex: none; place-items: center; border-radius: 12px; color: white; background: #50635f; }
+  .ai-chat-form button:hover { background: #3d504b; }
+  .ai-chat-footnote { padding: 10px 20px 14px; color: #959c98; font: 400 9px/1.4 'Open Sans', sans-serif; text-align: center; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+  @keyframes ai-dot { to { opacity: 0.25; transform: translateY(-3px); } }
+
+  @media (max-width: 1279px) {
+    .catalogue-panel { grid-template-columns: 230px minmax(0, 1fr); }
+    .package-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 325px)); }
+    .result-toolbar { align-items: flex-start; flex-direction: column; }
+  }
+
+  @media (max-width: 899px) {
+    .package-catalogue { width: calc(100% - 32px); margin: 120px auto 0; }
+    .catalogue-heading { margin-bottom: 48px; }
+    .catalogue-heading h2 { font-size: 40px; }
+    .catalogue-panel { grid-template-columns: 1fr; padding: 18px; }
+    .filter-sidebar { position: static; height: auto; min-height: 0; overflow: hidden; }
+    .country-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .result-toolbar { margin-top: 18px; }
+  }
+
+  @media (max-width: 719px) {
+    .catalogue-panel { padding: 14px; border-radius: 22px; }
+    .filter-tabs { gap: 8px; }
+    .filter-button { min-width: 0; padding-inline: 12px; font-size: 13px; }
+    .package-grid { grid-template-columns: minmax(0, 325px); justify-content: center; }
+    .result-toolbar { align-items: stretch; }
+    #results-count { text-align: right; }
+    .ai-chat-messages { padding: 18px 14px; }
+    .ai-prompt-suggestions { padding-inline: 14px; }
+    .ai-chat-form { margin-inline: 14px; }
+    .ai-chat-brand p { display: none; }
+    .ai-planner-dialog { inset: auto 12px 12px 12px; width: auto; min-width: 0; height: min(82dvh, 720px); min-height: 440px; resize: both; }
+    .ai-related-card { grid-template-columns: 74px minmax(0, 1fr) 30px; }
+    .ai-related-card img { width: 74px; height: 76px; }
+  }
+</style>
+
+<script>
+  const categoryButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('#package-filter-tabs button'))
+  const packageCards = Array.from(document.querySelectorAll<HTMLElement>('#catalogue-grid .package-slot'))
+  const countryInputs = Array.from(document.querySelectorAll<HTMLInputElement>('.country-options input'))
+  const minimumInput = document.querySelector<HTMLInputElement>('#minimum-price')
+  const maximumInput = document.querySelector<HTMLInputElement>('#maximum-price')
+  const minimumLabel = document.querySelector<HTMLOutputElement>('#minimum-price-label')
+  const maximumLabel = document.querySelector<HTMLOutputElement>('#maximum-price-label')
+  const rangeFill = document.querySelector<HTMLElement>('#range-fill')
+  const resultsCount = document.querySelector<HTMLElement>('#results-count')
+  const emptyResults = document.querySelector<HTMLElement>('#empty-results')
+  const pagination = document.querySelector<HTMLElement>('#package-pagination')
+  const catalogueGrid = document.querySelector<HTMLElement>('#catalogue-grid')
+  const resetButton = document.querySelector<HTMLButtonElement>('#reset-filters')
+  let activeCategory = 'All'
+  let currentPage = 1
+  const pageSize = Number(pagination?.dataset.pageSize ?? 8)
+
+  const currency = (value: number) => `$${value.toLocaleString('en-US')}`
+
+  const updateRange = () => {
+    if (!minimumInput || !maximumInput || !minimumLabel || !maximumLabel || !rangeFill) return
+    let minimum = Number(minimumInput.value)
+    let maximum = Number(maximumInput.value)
+
+    if (minimum > maximum - 10) {
+      if (document.activeElement === minimumInput) minimum = maximum - 10
+      else maximum = minimum + 10
+      minimumInput.value = String(minimum)
+      maximumInput.value = String(maximum)
+    }
+
+    minimumLabel.value = currency(minimum)
+    maximumLabel.value = currency(maximum)
+    const rangeMinimum = Number(minimumInput.min)
+    const rangeMaximum = Number(minimumInput.max)
+    const rangeSize = rangeMaximum - rangeMinimum
+    rangeFill.style.left = `${((minimum - rangeMinimum) / rangeSize) * 100}%`
+    rangeFill.style.right = `${100 - ((maximum - rangeMinimum) / rangeSize) * 100}%`
+  }
+
+  const renderPagination = (pageCount: number) => {
+    if (!pagination) return
+    pagination.hidden = pageCount <= 1
+    pagination.replaceChildren()
+
+    if (pageCount <= 1) return
+
+    const changePage = (page: number) => {
+      if (page === currentPage || page < 1 || page > pageCount) return
+      currentPage = page
+      applyFilters()
+      window.requestAnimationFrame(() => catalogueGrid?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    }
+
+    const previousButton = document.createElement('button')
+    previousButton.type = 'button'
+    previousButton.className = 'pagination-button pagination-arrow'
+    previousButton.setAttribute('aria-label', 'Go to previous page')
+    previousButton.disabled = currentPage === 1
+    previousButton.innerHTML = '<svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m12.5 4.5-5.5 5.5 5.5 5.5"></path></svg>'
+    previousButton.addEventListener('click', () => changePage(currentPage - 1))
+    pagination.append(previousButton)
+
+    const pagesGroup = document.createElement('div')
+    pagesGroup.className = 'pagination-pages'
+
+    Array.from({ length: pageCount }, (_, index) => index + 1).forEach((page) => {
+      const button = document.createElement('button')
+      const isActive = page === currentPage
+      button.type = 'button'
+      button.className = `pagination-button pagination-number${isActive ? ' is-active' : ''}`
+      button.textContent = String(page)
+      button.setAttribute('aria-label', `Go to page ${page}`)
+      if (isActive) button.setAttribute('aria-current', 'page')
+
+      button.addEventListener('click', () => changePage(page))
+
+      pagesGroup.append(button)
+    })
+
+    pagination.append(pagesGroup)
+
+    const nextButton = document.createElement('button')
+    nextButton.type = 'button'
+    nextButton.className = 'pagination-button pagination-arrow'
+    nextButton.setAttribute('aria-label', 'Go to next page')
+    nextButton.disabled = currentPage === pageCount
+    nextButton.innerHTML = '<svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"></path></svg>'
+    nextButton.addEventListener('click', () => changePage(currentPage + 1))
+    pagination.append(nextButton)
+  }
+
+  const applyFilters = () => {
+    if (!minimumInput || !maximumInput) return
+    const selectedCountries = new Set(countryInputs.filter((input) => input.checked).map((input) => input.value))
+    const minimum = Number(minimumInput.value)
+    const maximum = Number(maximumInput.value)
+
+    const matchingCards = packageCards.filter((card) => {
+      const matchesCategory = activeCategory === 'All' || card.dataset.category === activeCategory
+      const matchesCountry = selectedCountries.has(card.dataset.country ?? '')
+      const price = Number(card.dataset.price)
+      const matchesPrice = price >= minimum && price <= maximum
+      return matchesCategory && matchesCountry && matchesPrice
+    })
+
+    const visibleCount = matchingCards.length
+    const pageCount = Math.ceil(visibleCount / pageSize)
+    currentPage = Math.min(currentPage, Math.max(pageCount, 1))
+    const pageStart = (currentPage - 1) * pageSize
+    const cardsOnPage = new Set(matchingCards.slice(pageStart, pageStart + pageSize))
+
+    packageCards.forEach((card) => { card.hidden = !cardsOnPage.has(card) })
+    renderPagination(pageCount)
+
+    if (resultsCount) resultsCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'package' : 'packages'} found`
+    if (emptyResults) emptyResults.hidden = visibleCount !== 0
+  }
+
+  const refreshFilters = () => {
+    currentPage = 1
+    updateRange()
+    applyFilters()
+  }
+
+  categoryButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.category ?? 'All'
+      currentPage = 1
+      categoryButtons.forEach((item) => {
+        const isActive = item === button
+        item.classList.toggle('is-active', isActive)
+        item.setAttribute('aria-pressed', String(isActive))
+      })
+      applyFilters()
+    })
+  })
+
+  minimumInput?.addEventListener('input', refreshFilters)
+  maximumInput?.addEventListener('input', refreshFilters)
+  countryInputs.forEach((input) => input.addEventListener('change', () => {
+    currentPage = 1
+    applyFilters()
+  }))
+
+  resetButton?.addEventListener('click', () => {
+    if (!minimumInput || !maximumInput) return
+    minimumInput.value = minimumInput.min
+    maximumInput.value = maximumInput.max
+    countryInputs.forEach((input) => { input.checked = true })
+    activeCategory = 'All'
+    categoryButtons.forEach((button) => {
+      const isActive = button.dataset.category === 'All'
+      button.classList.toggle('is-active', isActive)
+      button.setAttribute('aria-pressed', String(isActive))
+    })
+    refreshFilters()
+  })
+
+  window.addEventListener('tripova:filter-country', (event) => {
+    const country = (event as CustomEvent<{ country?: string }>).detail?.country
+    if (!country || !countryInputs.some((input) => input.value === country)) return
+
+    if (minimumInput && maximumInput) {
+      minimumInput.value = minimumInput.min
+      maximumInput.value = maximumInput.max
+    }
+    countryInputs.forEach((input) => { input.checked = input.value === country })
+    activeCategory = 'All'
+    currentPage = 1
+    categoryButtons.forEach((button) => {
+      const isActive = button.dataset.category === 'All'
+      button.classList.toggle('is-active', isActive)
+      button.setAttribute('aria-pressed', String(isActive))
+    })
+    updateRange()
+    applyFilters()
+  })
+
+  type PlannerPackage = {
+    slug: string
+    name: string
+    country: string
+    location: string
+    category: string
+    duration: string
+    price: number
+    rating: number
+    image: string
+    description: string
+    itinerary: Array<{ day: string; activities: string[] }>
+    included: string[]
+  }
+
+  const aiKnowledgeElement = document.querySelector<HTMLElement>('#ai-package-knowledge')
+  const aiDialog = document.querySelector<HTMLDialogElement>('#ai-planner-dialog')
+  const openAiButton = document.querySelector<HTMLButtonElement>('#open-ai-planner')
+  const closeAiButton = document.querySelector<HTMLButtonElement>('#close-ai-planner')
+  const aiForm = document.querySelector<HTMLFormElement>('#ai-chat-form')
+  const aiInput = document.querySelector<HTMLTextAreaElement>('#ai-chat-input')
+  const aiMessages = document.querySelector<HTMLElement>('#ai-chat-messages')
+  const aiHeader = document.querySelector<HTMLElement>('.ai-chat-header')
+  const aiSuggestions = Array.from(document.querySelectorAll<HTMLButtonElement>('#ai-prompt-suggestions button'))
+  let aiPackages: PlannerPackage[] = []
+
+  try {
+    aiPackages = JSON.parse(aiKnowledgeElement?.dataset.packages ?? '[]') as PlannerPackage[]
+  } catch {
+    aiPackages = []
+  }
+
+  const addAiMessage = (role: 'user' | 'assistant', text: string, relatedPackages: PlannerPackage[] = []) => {
+    if (!aiMessages) return
+    const message = document.createElement('div')
+    message.className = `ai-message ${role === 'user' ? 'is-user' : 'is-assistant'}`
+
+    const avatar = document.createElement('span')
+    avatar.className = 'message-avatar'
+    avatar.textContent = role === 'user' ? 'YOU' : 'AI'
+
+    const bubble = document.createElement('div')
+    bubble.className = 'message-bubble'
+    bubble.textContent = text
+
+    if (relatedPackages.length > 0) {
+      const relatedList = document.createElement('div')
+      relatedList.className = 'ai-related-products'
+
+      const heading = document.createElement('p')
+      heading.className = 'ai-related-heading'
+      heading.textContent = 'Related Tripova packages'
+      relatedList.append(heading)
+
+      relatedPackages.forEach((item) => {
+        const card = document.createElement('a')
+        card.className = 'ai-related-card'
+        card.href = `/package/${item.slug}`
+
+        const image = document.createElement('img')
+        image.src = item.image
+        image.alt = item.name
+        image.loading = 'lazy'
+
+        const copy = document.createElement('div')
+        copy.className = 'ai-related-copy'
+        const name = document.createElement('h4')
+        name.textContent = item.name
+        const meta = document.createElement('p')
+        meta.textContent = `${item.location} · ${item.duration} · ★ ${item.rating.toFixed(1)}`
+        const price = document.createElement('strong')
+        price.textContent = `$${item.price.toLocaleString('en-US')} / person`
+        copy.append(name, meta, price)
+
+        const open = document.createElement('span')
+        open.className = 'ai-related-open'
+        open.setAttribute('aria-hidden', 'true')
+        open.textContent = '↗'
+
+        card.append(image, copy, open)
+        relatedList.append(card)
+      })
+
+      bubble.append(relatedList)
+    }
+
+    message.append(avatar, bubble)
+    aiMessages.append(message)
+    aiMessages.scrollTop = aiMessages.scrollHeight
+  }
+
+  const addTypingMessage = () => {
+    if (!aiMessages) return null
+    const message = document.createElement('div')
+    message.className = 'ai-message is-assistant is-typing'
+    message.innerHTML = '<span class="message-avatar">AI</span><div class="message-bubble"><i></i><i></i><i></i></div>'
+    aiMessages.append(message)
+    aiMessages.scrollTop = aiMessages.scrollHeight
+    return message
+  }
+
+  const readBudget = (prompt: string) => {
+    const match = prompt.match(/\$\s*([\d,]+)|(?:budget|under|below|max(?:imum)?|maksimal|di bawah|sekitar)\D{0,8}([\d,]+)/i)
+    const rawValue = match?.[1] ?? match?.[2]
+    return rawValue ? Number(rawValue.replaceAll(',', '')) : null
+  }
+
+  const createLocalPlan = (prompt: string) => {
+    const normalized = prompt.toLowerCase()
+    const country = ['Indonesia', 'Italy', 'Japan', 'UAE'].find((item) => {
+      const countryName = item.toLowerCase()
+      return normalized.includes(countryName) || (item === 'UAE' && normalized.includes('dubai')) || (item === 'Indonesia' && normalized.includes('bali')) || (item === 'Italy' && normalized.includes('rome')) || (item === 'Japan' && normalized.includes('tokyo'))
+    })
+    const categoryAliases: Record<string, string[]> = {
+      City: ['city', 'kota', 'urban'],
+      Beach: ['beach', 'pantai', 'island'],
+      Mountain: ['mountain', 'gunung', 'hiking'],
+      Adventure: ['adventure', 'petualangan', 'desert', 'skydiving'],
+    }
+    const category = Object.entries(categoryAliases).find(([, aliases]) => aliases.some((alias) => normalized.includes(alias)))?.[0]
+    const budget = readBudget(prompt)
+    const durationMatch = normalized.match(/(\d+)\s*(?:day|days|hari)/)
+    const requestedDays = durationMatch ? Number(durationMatch[1]) : null
+
+    const scored = aiPackages.map((item) => {
+      const packageDays = Number.parseInt(item.duration, 10)
+      let score = 0
+      if (country && item.country === country) score += 5
+      if (category && item.category === category) score += 3
+      if (budget !== null && item.price <= budget) score += 2
+      if (budget !== null && item.price > budget) score -= Math.ceil((item.price - budget) / 200)
+      if (requestedDays !== null) score += Math.max(0, 2 - Math.abs(packageDays - requestedDays))
+      return { item, score }
+    }).sort((a, b) => b.score - a.score || a.item.price - b.item.price)
+
+    const bestMatch = scored[0]?.item
+    const constraints = { country, category, budget, requestedDays }
+
+    window.dispatchEvent(new CustomEvent('tripova:ai-plan-request', {
+      detail: { prompt, constraints, source: 'packages.json', mode: 'frontend-local' },
+    }))
+
+    if (!bestMatch) {
+      return {
+        text: 'I could not access the local package catalogue. Once the backend is connected, this request can be sent to the AI planning API.',
+        packages: [] as PlannerPackage[],
+      }
+    }
+
+    const relatedPackages = scored.slice(0, 3).map(({ item }) => item)
+
+    const planDays = requestedDays ?? Number.parseInt(bestMatch.duration, 10)
+    const itineraryLines = Array.from({ length: Math.min(planDays, 5) }, (_, index) => {
+      const storedDay = bestMatch.itinerary[index]
+      if (storedDay) return `Day ${index + 1} — ${storedDay.activities.slice(0, 2).join(' · ')}`
+      return `Day ${index + 1} — Flexible local exploration and a personalized activity block`
+    })
+    const budgetNote = budget !== null && bestMatch.price > budget
+      ? `The closest catalogue option is $${bestMatch.price.toLocaleString('en-US')} per person, which is $${(bestMatch.price - budget).toLocaleString('en-US')} above your stated budget.`
+      : `Estimated package price: $${bestMatch.price.toLocaleString('en-US')} per person.`
+
+    return {
+      packages: relatedPackages,
+      text: `Here’s a catalogue-grounded draft for you:\n\n${bestMatch.name}\n${bestMatch.location} · ${planDays} days · ${bestMatch.category}\n\n${itineraryLines.join('\n')}\n\n${budgetNote}\nIncluded highlights: ${bestMatch.included.slice(0, 3).join(', ')}.\n\nThis is a frontend draft based on Tripova’s current package data. Dates, availability, and live pricing can be validated automatically once the backend database is connected.`,
+    }
+  }
+
+  const submitAiPrompt = (prompt: string) => {
+    const cleanPrompt = prompt.trim()
+    if (!cleanPrompt) return
+    addAiMessage('user', cleanPrompt)
+    if (aiInput) {
+      aiInput.value = ''
+      aiInput.style.height = 'auto'
+    }
+
+    const typingMessage = addTypingMessage()
+    window.setTimeout(() => {
+      typingMessage?.remove()
+      const response = createLocalPlan(cleanPrompt)
+      addAiMessage('assistant', response.text, response.packages)
+    }, 550)
+  }
+
+  openAiButton?.addEventListener('click', () => {
+    if (aiDialog && !aiDialog.open) aiDialog.showModal()
+    window.setTimeout(() => aiInput?.focus(), 50)
+  })
+  closeAiButton?.addEventListener('click', () => aiDialog?.close())
+
+  let dragStart: { pointerX: number; pointerY: number; left: number; top: number } | null = null
+
+  aiHeader?.addEventListener('pointerdown', (event) => {
+    if (!aiDialog || !aiDialog.open || (event.target as HTMLElement).closest('button')) return
+    const bounds = aiDialog.getBoundingClientRect()
+    dragStart = { pointerX: event.clientX, pointerY: event.clientY, left: bounds.left, top: bounds.top }
+    aiDialog.style.left = `${bounds.left}px`
+    aiDialog.style.top = `${bounds.top}px`
+    aiDialog.style.right = 'auto'
+    aiDialog.style.bottom = 'auto'
+    aiDialog.classList.add('is-dragging')
+    aiHeader.setPointerCapture(event.pointerId)
+  })
+
+  aiHeader?.addEventListener('pointermove', (event) => {
+    if (!aiDialog || !dragStart) return
+    const bounds = aiDialog.getBoundingClientRect()
+    const nextLeft = dragStart.left + event.clientX - dragStart.pointerX
+    const nextTop = dragStart.top + event.clientY - dragStart.pointerY
+    const maximumLeft = Math.max(0, window.innerWidth - bounds.width)
+    const maximumTop = Math.max(0, window.innerHeight - 84)
+    aiDialog.style.left = `${Math.min(maximumLeft, Math.max(0, nextLeft))}px`
+    aiDialog.style.top = `${Math.min(maximumTop, Math.max(0, nextTop))}px`
+  })
+
+  const stopDragging = (event: PointerEvent) => {
+    if (!dragStart) return
+    dragStart = null
+    aiDialog?.classList.remove('is-dragging')
+    if (aiHeader?.hasPointerCapture(event.pointerId)) aiHeader.releasePointerCapture(event.pointerId)
+  }
+
+  aiHeader?.addEventListener('pointerup', stopDragging)
+  aiHeader?.addEventListener('pointercancel', stopDragging)
+  aiForm?.addEventListener('submit', (event) => {
+    event.preventDefault()
+    submitAiPrompt(aiInput?.value ?? '')
+  })
+  aiInput?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault()
+      aiForm?.requestSubmit()
+    }
+  })
+  aiInput?.addEventListener('input', () => {
+    aiInput.style.height = 'auto'
+    aiInput.style.height = `${Math.min(aiInput.scrollHeight, 110)}px`
+  })
+  aiSuggestions.forEach((button) => {
+    button.addEventListener('click', () => submitAiPrompt(button.dataset.prompt ?? ''))
+  })
+
+  refreshFilters()
+</script>

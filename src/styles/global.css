@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
+
+body {
+  @apply font-body text-[#2C2C2A] bg-neutral;
+}
+
+h1, h2, h3, h4 {
+  @apply font-heading;
+}

@@ -1,0 +1,194 @@
+---
+import { Image } from 'astro:assets'
+import indonesiaImg from '../assets/Indonesia.jpg'
+import italyImg from '../assets/Italy.jpg'
+import japanImg from '../assets/japan.jpg'
+
+const destinations = [
+  { name: 'Indonesia', region: 'Southeast Asia', location: 'Bali & East Java', image: indonesiaImg },
+  { name: 'Italy', region: 'Southern Europe', location: 'Rome & Amalfi', image: italyImg },
+  { name: 'Japan', region: 'East Asia', location: 'Tokyo & Kyoto', image: japanImg },
+]
+
+const featured = destinations[0]
+---
+
+<section id="hero" class="package-listing-hero" aria-labelledby="package-hero-title">
+  <img id="package-hero-background" class="hero-background" src={featured.image.src} alt={featured.name} />
+  <div class="hero-shade"></div>
+
+  <div class="hero-frame">
+    <div class="hero-copy">
+      <p id="package-hero-region" class="hero-region">{featured.region}</p>
+      <p class="hero-label">Explore</p>
+      <h1 id="package-hero-title">Travel<br />Packages</h1>
+      <p class="hero-description">Find a journey that matches your pace, destination, and budget—planned with the details already taken care of.</p>
+      <a href="#all-packages" class="hero-link">
+        Browse all packages
+        <span aria-hidden="true">&#8594;</span>
+      </a>
+    </div>
+
+    <div class="hero-rail" aria-label="Preview package destinations">
+      <div class="hero-track">
+        {destinations.map((destination, index) => (
+          <button
+            type="button"
+            class:list={['hero-card', { 'is-active': index === 0 }]}
+            data-index={index}
+            data-name={destination.name}
+            data-region={destination.region}
+            data-image={destination.image.src}
+            aria-pressed={index === 0 ? 'true' : 'false'}
+          >
+            <Image src={destination.image} alt={destination.location} class="hero-card-image" widths={[260, 420]} sizes="220px" />
+            <span class="hero-card-shade"></span>
+            <span class="hero-card-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"></path></svg>
+            </span>
+            <span class="hero-card-copy">
+              <small>{destination.location}</small>
+              <strong>{destination.name}</strong>
+              <span aria-label="5 out of 5 stars">★★★★★</span>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div class="hero-controls">
+        <button id="package-hero-prev" type="button" aria-label="Previous destination">&#8592;</button>
+        <div class="hero-dots" aria-hidden="true">
+          {destinations.map((_, index) => <i class:list={{ 'is-active': index === 0 }}></i>)}
+        </div>
+        <button id="package-hero-next" type="button" aria-label="Next destination">&#8594;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .package-listing-hero {
+    --page-gutter: clamp(8px, 1.53vw, 22px);
+    position: relative;
+    width: calc(100% - (var(--page-gutter) * 2));
+    height: calc(100svh - (var(--page-gutter) * 2));
+    min-height: 680px;
+    margin: var(--page-gutter) auto 0;
+    overflow: hidden;
+    border-radius: 43px;
+    color: white;
+    background: #26332f;
+  }
+
+  .hero-background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 280ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .hero-background.is-changing { opacity: 0.35; transform: scale(1.025); }
+  .hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(8 14 12 / 72%) 0%, rgb(8 14 12 / 34%) 48%, rgb(8 14 12 / 10%) 76%), linear-gradient(0deg, rgb(4 8 7 / 88%) 0%, transparent 52%); }
+  .hero-frame { position: relative; z-index: 1; width: 100%; height: 100%; padding: 130px 48px 48px; }
+  .hero-copy { position: absolute; bottom: 92px; left: 48px; width: min(42%, 610px); }
+  .hero-region { margin-bottom: 72px; color: rgb(255 255 255 / 68%); font: 600 18px/1.2 'Open Sans', sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+  .hero-label { margin-bottom: 4px; font: 600 20px/1.3 'Open Sans', sans-serif; }
+  .hero-copy h1 { font-family: Caudex, serif; font-size: clamp(54px, 5.7vw, 88px); font-weight: 700; line-height: 0.98; text-transform: uppercase; }
+  .hero-description { width: min(100%, 560px); margin-top: 16px; color: rgb(255 255 255 / 82%); font: 400 15px/1.65 'Open Sans', sans-serif; }
+  .hero-link { display: inline-flex; align-items: center; gap: 24px; margin-top: 24px; padding: 13px 20px; border: 1px solid rgb(255 255 255 / 42%); border-radius: 999px; background: rgb(80 99 95 / 70%); font: 600 14px/1 'Open Sans', sans-serif; transition: color 220ms ease, background-color 220ms ease, transform 220ms ease; }
+  .hero-link:hover { color: #50635f; background: white; transform: translateY(-2px); }
+
+  .hero-rail { position: absolute; right: 0; bottom: 62px; width: 51%; overflow: hidden; }
+  .hero-track { --card-width: 178px; --card-gap: 14px; display: flex; width: max-content; align-items: flex-end; gap: var(--card-gap); transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1); }
+  .hero-card { position: relative; width: 178px; height: 284px; flex: 0 0 178px; overflow: hidden; border: 1px solid rgb(255 255 255 / 16%); border-radius: 20px; color: white; text-align: left; box-shadow: 0 18px 50px rgb(0 0 0 / 24%); transition: width 400ms ease, height 400ms ease, flex-basis 400ms ease, transform 250ms ease; }
+  .hero-card:hover { transform: translateY(-5px); }
+  .hero-card.is-active { width: 224px; height: 348px; flex-basis: 224px; }
+  .hero-card-image { width: 100%; height: 100%; object-fit: cover; }
+  .hero-card-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(5 10 8 / 82%) 0%, transparent 65%); }
+  .hero-card-mark { position: absolute; top: 14px; left: 14px; display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; color: #50635f; background: rgb(255 255 255 / 88%); }
+  .hero-card-copy { position: absolute; right: 14px; bottom: 16px; left: 14px; display: flex; flex-direction: column; }
+  .hero-card-copy small { color: rgb(255 255 255 / 72%); font: 400 11px/1.35 'Open Sans', sans-serif; }
+  .hero-card-copy strong { margin-top: 2px; font: 700 19px/1.15 Caudex, serif; }
+  .hero-card-copy > span { margin-top: 8px; color: #fc9e1b; font-size: 12px; letter-spacing: 2px; }
+  .hero-controls { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+  .hero-controls button { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid rgb(255 255 255 / 25%); border-radius: 50%; background: rgb(80 99 95 / 70%); transition: background-color 180ms ease; }
+  .hero-controls button:hover { background: #50635f; }
+  .hero-dots { display: flex; align-items: center; gap: 7px; }
+  .hero-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgb(255 255 255 / 32%); transition: width 200ms ease, background-color 200ms ease; }
+  .hero-dots i.is-active { width: 20px; border-radius: 999px; background: white; }
+
+  @media (max-width: 1023px) {
+    .hero-frame { padding-inline: 32px; }
+    .hero-copy { bottom: 70px; left: 32px; width: 44%; }
+    .hero-region { margin-bottom: 42px; }
+    .hero-rail { width: 50%; }
+    .hero-track { --card-width: 154px; }
+    .hero-card { width: var(--card-width); height: 248px; flex-basis: var(--card-width); }
+    .hero-card.is-active { width: 190px; height: 300px; flex-basis: 190px; }
+  }
+
+  @media (max-width: 767px) {
+    .package-listing-hero { min-height: 760px; border-radius: 28px; }
+    .hero-frame { padding: 100px 22px 30px; }
+    .hero-copy { top: 120px; right: 22px; bottom: auto; left: 22px; width: auto; }
+    .hero-region { margin-bottom: 24px; font-size: 13px; }
+    .hero-label { font-size: 16px; }
+    .hero-copy h1 { font-size: clamp(42px, 13vw, 64px); }
+    .hero-description { max-width: 500px; font-size: 14px; }
+    .hero-rail { right: 0; bottom: 28px; width: calc(100% - 22px); }
+    .hero-track { --card-width: 150px; }
+    .hero-card, .hero-card.is-active { width: var(--card-width); height: 224px; flex-basis: var(--card-width); }
+    .hero-card.is-active { width: 178px; flex-basis: 178px; }
+    .hero-controls { margin-top: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-background, .hero-track, .hero-card { transition: none; }
+  }
+</style>
+
+<script>
+  const background = document.querySelector<HTMLImageElement>('#package-hero-background')
+  const region = document.querySelector<HTMLElement>('#package-hero-region')
+  const cards = Array.from(document.querySelectorAll<HTMLButtonElement>('.package-listing-hero .hero-card'))
+  const dots = Array.from(document.querySelectorAll<HTMLElement>('.package-listing-hero .hero-dots i'))
+  const track = document.querySelector<HTMLElement>('.package-listing-hero .hero-track')
+  const previous = document.querySelector<HTMLButtonElement>('#package-hero-prev')
+  const next = document.querySelector<HTMLButtonElement>('#package-hero-next')
+  let activeIndex = 0
+
+  const selectDestination = (index: number) => {
+    if (!cards.length || !background || !region || !track) return
+    activeIndex = (index + cards.length) % cards.length
+    const card = cards[activeIndex]
+
+    cards.forEach((item, itemIndex) => {
+      const isActive = itemIndex === activeIndex
+      item.classList.toggle('is-active', isActive)
+      item.setAttribute('aria-pressed', String(isActive))
+    })
+    dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === activeIndex))
+
+    background.classList.add('is-changing')
+    window.setTimeout(() => {
+      background.src = card.dataset.image ?? background.src
+      background.alt = card.dataset.name ?? ''
+      region.textContent = `${card.dataset.region ?? ''} · ${card.dataset.name ?? ''}`
+      background.classList.remove('is-changing')
+    }, 180)
+
+    const styles = window.getComputedStyle(track)
+    const cardWidth = Number.parseFloat(styles.getPropertyValue('--card-width')) || 178
+    const cardGap = Number.parseFloat(styles.getPropertyValue('--card-gap')) || 14
+    track.style.transform = `translateX(-${Math.max(0, activeIndex * (cardWidth + cardGap))}px)`
+  }
+
+  const showCountryPackages = (country: string) => {
+    window.dispatchEvent(new CustomEvent('tripova:filter-country', { detail: { country } }))
+    window.requestAnimationFrame(() => {
+      document.querySelector('#all-packages')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
+  cards.forEach((card, index) => card.addEventListener('click', () => {
+    selectDestination(index)
+    const country = card.dataset.name
+    if (country) showCountryPackages(country)
+  }))
+  previous?.addEventListener('click', () => selectDestination(activeIndex - 1))
+  next?.addEventListener('click', () => selectDestination(activeIndex + 1))
+</script>

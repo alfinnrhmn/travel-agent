@@ -1,0 +1,198 @@
+[
+  {
+    "slug": "prambanan-heritage-journey",
+    "name": "Prambanan Heritage Journey",
+    "location": "Yogyakarta, Indonesia",
+    "category": "City",
+    "rating": 4.9,
+    "reviewCount": 84,
+    "duration": "4 Days / 3 Nights",
+    "price": 260,
+    "image": "Prambanan.jpg",
+    "gallery": ["Prambanan.jpg"],
+    "description": "Discover Yogyakarta through the timeless silhouette of Prambanan, traditional arts, and the warm rhythm of Javanese culture.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Yogyakarta", "activities": ["Airport pickup", "Hotel check-in", "Malioboro evening walk"] },
+      { "day": "Day 2 - Prambanan Heritage", "activities": ["Guided Prambanan temple tour", "Local lunch", "Ramayana cultural performance"] },
+      { "day": "Day 3 - Art & Village Life", "activities": ["Batik workshop", "Traditional village visit", "Javanese dinner"] },
+      { "day": "Day 4 - Departure", "activities": ["Leisure morning", "Airport transfer"] }
+    ],
+    "included": ["Hotel accommodation", "Local guide", "Temple admission", "Daily breakfast", "Airport transfers"],
+    "notIncluded": ["Flights", "Personal expenses", "Optional activities"]
+  },
+  {
+    "slug": "minangkabau-cultural-escape",
+    "name": "Minangkabau Cultural Escape",
+    "location": "West Sumatra, Indonesia",
+    "category": "City",
+    "rating": 4.8,
+    "reviewCount": 61,
+    "duration": "5 Days / 4 Nights",
+    "price": 340,
+    "image": "Minang.jpg",
+    "gallery": ["Minang.jpg"],
+    "description": "Experience West Sumatra through its iconic rumah gadang, highland scenery, rich culinary traditions, and welcoming Minangkabau communities.",
+    "itinerary": [
+      { "day": "Day 1 - Welcome to Padang", "activities": ["Airport pickup", "City orientation", "Padang cuisine dinner"] },
+      { "day": "Day 2 - Minangkabau Heritage", "activities": ["Rumah Gadang visit", "Cultural storytelling", "Traditional craft experience"] },
+      { "day": "Day 3 - Bukittinggi Highlands", "activities": ["Highland scenic drive", "Jam Gadang visit", "Local market walk"] },
+      { "day": "Day 4 - Village & Culinary Day", "activities": ["Village visit", "Minang cooking experience", "Free evening"] },
+      { "day": "Day 5 - Departure", "activities": ["Hotel check-out", "Airport transfer"] }
+    ],
+    "included": ["Hotel accommodation", "Local guide", "Cultural activities", "Daily breakfast", "Ground transfers"],
+    "notIncluded": ["Flights", "Personal expenses", "Additional meals"]
+  },
+  {
+    "slug": "raja-ampat-island-escape",
+    "name": "Raja Ampat Island Escape",
+    "location": "West Papua, Indonesia",
+    "category": "Beach",
+    "rating": 5.0,
+    "reviewCount": 112,
+    "duration": "6 Days / 5 Nights",
+    "price": 790,
+    "image": "Raja ampat.jpg",
+    "gallery": ["Raja ampat.jpg"],
+    "description": "Sail through emerald islands, clear lagoons, and remarkable coral reefs on an unforgettable escape into Raja Ampat.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Sorong", "activities": ["Airport pickup", "Harbor transfer", "Island resort check-in"] },
+      { "day": "Day 2 - Piaynemo Panorama", "activities": ["Island cruise", "Piaynemo viewpoint hike", "Lagoon swim"] },
+      { "day": "Day 3 - Reef Discovery", "activities": ["Guided snorkeling", "Coral garden exploration", "Beach picnic"] },
+      { "day": "Day 4 - Hidden Islands", "activities": ["Private boat excursion", "Village visit", "Sunset cruise"] },
+      { "day": "Day 5 - Leisure Day", "activities": ["Free beach morning", "Optional diving", "Farewell dinner"] },
+      { "day": "Day 6 - Departure", "activities": ["Boat transfer to Sorong", "Airport transfer"] }
+    ],
+    "included": ["Island accommodation", "Boat transfers", "Snorkeling equipment", "Daily meals", "Local guide"],
+    "notIncluded": ["Flights to Sorong", "Diving fees", "Personal expenses"]
+  },
+  {
+    "slug": "mount-bromo-sunrise-adventure",
+    "name": "Mount Bromo Sunrise Adventure",
+    "location": "East Java, Indonesia",
+    "category": "Mountain",
+    "rating": 4.9,
+    "reviewCount": 143,
+    "duration": "4 Days / 3 Nights",
+    "price": 310,
+    "image": "bromo.jpg",
+    "gallery": ["bromo.jpg"],
+    "description": "Watch dawn break across Mount Bromo, cross the sea of sand by jeep, and explore the dramatic volcanic landscapes of East Java.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Malang", "activities": ["Station or airport pickup", "Highland hotel transfer", "Trip briefing"] },
+      { "day": "Day 2 - Bromo Sunrise", "activities": ["Pre-dawn jeep ride", "Sunrise viewpoint", "Bromo crater walk"] },
+      { "day": "Day 3 - Waterfall Adventure", "activities": ["Madakaripura waterfall visit", "Local lunch", "Free evening"] },
+      { "day": "Day 4 - Departure", "activities": ["Breakfast", "Return transfer"] }
+    ],
+    "included": ["Hotel accommodation", "Private jeep", "National park entry", "Local guide", "Daily breakfast"],
+    "notIncluded": ["Flights or train tickets", "Horse rental", "Personal expenses"]
+  },
+  {
+    "slug": "cinque-terre-coastal-escape",
+    "name": "Cinque Terre Coastal Escape",
+    "location": "Liguria, Italy",
+    "category": "Beach",
+    "rating": 4.9,
+    "reviewCount": 97,
+    "duration": "5 Days / 4 Nights",
+    "price": 980,
+    "image": "Italy2.jpg",
+    "gallery": ["Italy2.jpg"],
+    "description": "Follow the Ligurian coast through colorful villages, sunset harbors, cliffside paths, and relaxed Italian seaside dining.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Liguria", "activities": ["Rail station pickup", "Boutique hotel check-in", "Sunset harbor walk"] },
+      { "day": "Day 2 - Cinque Terre Villages", "activities": ["Guided village tour", "Coastal train journey", "Local seafood lunch"] },
+      { "day": "Day 3 - Coast & Vineyards", "activities": ["Cliffside trail walk", "Vineyard tasting", "Free evening"] },
+      { "day": "Day 4 - Mediterranean Leisure", "activities": ["Boat cruise", "Beach time", "Farewell dinner"] },
+      { "day": "Day 5 - Departure", "activities": ["Breakfast", "Rail station transfer"] }
+    ],
+    "included": ["Boutique accommodation", "Rail pass", "Boat cruise", "Guided tours", "Daily breakfast"],
+    "notIncluded": ["International flights", "Travel insurance", "Personal expenses"]
+  },
+  {
+    "slug": "colosseum-heritage-journey",
+    "name": "Colosseum Heritage Journey",
+    "location": "Rome, Italy",
+    "category": "City",
+    "rating": 4.8,
+    "reviewCount": 156,
+    "duration": "5 Days / 4 Nights",
+    "price": 900,
+    "image": "italy3.jpg",
+    "gallery": ["italy3.jpg"],
+    "description": "Step into ancient Rome with curated visits to the Colosseum, Roman Forum, historic piazzas, and neighborhood trattorias.",
+    "itinerary": [
+      { "day": "Day 1 - Welcome to Rome", "activities": ["Airport pickup", "Hotel check-in", "Historic center walk"] },
+      { "day": "Day 2 - Colosseum & Forum", "activities": ["Priority Colosseum entry", "Roman Forum tour", "Monti dinner"] },
+      { "day": "Day 3 - Vatican Treasures", "activities": ["Vatican Museums", "St. Peter's Basilica", "Evening at leisure"] },
+      { "day": "Day 4 - Piazzas & Flavors", "activities": ["Piazza walking tour", "Food tasting", "Trevi Fountain evening"] },
+      { "day": "Day 5 - Departure", "activities": ["Breakfast", "Airport transfer"] }
+    ],
+    "included": ["Central hotel", "Priority admissions", "Licensed guide", "Daily breakfast", "Airport transfers"],
+    "notIncluded": ["International flights", "Additional meals", "Personal expenses"]
+  },
+  {
+    "slug": "hakone-torii-retreat",
+    "name": "Hakone Torii Retreat",
+    "location": "Hakone, Japan",
+    "category": "Mountain",
+    "rating": 4.9,
+    "reviewCount": 89,
+    "duration": "5 Days / 4 Nights",
+    "price": 1050,
+    "image": "Japan 2.jpg",
+    "gallery": ["Japan 2.jpg"],
+    "description": "Slow down beside Lake Ashi with mountain views, shrine paths, restorative onsen stays, and easy access from Tokyo.",
+    "itinerary": [
+      { "day": "Day 1 - Tokyo to Hakone", "activities": ["Rail transfer", "Ryokan check-in", "Onsen evening"] },
+      { "day": "Day 2 - Lake Ashi & Shrine", "activities": ["Lake cruise", "Hakone Shrine visit", "Traditional dinner"] },
+      { "day": "Day 3 - Mountain Landscapes", "activities": ["Ropeway journey", "Owakudani valley", "Open-air museum"] },
+      { "day": "Day 4 - Slow Hakone", "activities": ["Free morning", "Tea experience", "Onsen relaxation"] },
+      { "day": "Day 5 - Return to Tokyo", "activities": ["Breakfast", "Rail transfer"] }
+    ],
+    "included": ["Ryokan accommodation", "Regional transport pass", "Lake cruise", "Daily breakfast", "Selected dinners"],
+    "notIncluded": ["International flights", "Tokyo accommodation", "Personal expenses"]
+  },
+  {
+    "slug": "atlantis-palm-luxury-escape",
+    "name": "Atlantis Palm Luxury Escape",
+    "location": "Palm Jumeirah, Dubai, UAE",
+    "category": "Beach",
+    "rating": 5.0,
+    "reviewCount": 134,
+    "duration": "5 Days / 4 Nights",
+    "price": 1250,
+    "image": "UEA2.jpg",
+    "gallery": ["UEA2.jpg"],
+    "description": "Enjoy a polished Dubai retreat with a luxury stay on Palm Jumeirah, private beach time, waterfront dining, and iconic city views.",
+    "itinerary": [
+      { "day": "Day 1 - Palm Jumeirah Arrival", "activities": ["Private airport pickup", "Luxury resort check-in", "Waterfront dinner"] },
+      { "day": "Day 2 - Resort & Aquaventure", "activities": ["Private beach morning", "Aquaventure access", "Sunset leisure"] },
+      { "day": "Day 3 - Dubai Icons", "activities": ["Burj Khalifa visit", "Dubai Mall", "Fountain show"] },
+      { "day": "Day 4 - Yacht & Marina", "activities": ["Marina yacht cruise", "Palm sightseeing", "Farewell dinner"] },
+      { "day": "Day 5 - Departure", "activities": ["Resort breakfast", "Private airport transfer"] }
+    ],
+    "included": ["Luxury resort", "Private transfers", "Aquaventure access", "Yacht cruise", "Daily breakfast"],
+    "notIncluded": ["International flights", "Visa fees", "Personal expenses"]
+  },
+  {
+    "slug": "abu-dhabi-grand-mosque-journey",
+    "name": "Abu Dhabi Grand Mosque Journey",
+    "location": "Abu Dhabi, UAE",
+    "category": "City",
+    "rating": 4.9,
+    "reviewCount": 105,
+    "duration": "4 Days / 3 Nights",
+    "price": 880,
+    "image": "UEA3.jpg",
+    "gallery": ["UEA3.jpg"],
+    "description": "Explore Abu Dhabi through the Sheikh Zayed Grand Mosque, waterfront landmarks, cultural museums, and refined Emirati hospitality.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Abu Dhabi", "activities": ["Airport pickup", "Hotel check-in", "Corniche evening drive"] },
+      { "day": "Day 2 - Grand Mosque & Heritage", "activities": ["Sheikh Zayed Grand Mosque", "Heritage Village", "Emirati dinner"] },
+      { "day": "Day 3 - Art & Architecture", "activities": ["Louvre Abu Dhabi", "Saadiyat Island", "Free evening"] },
+      { "day": "Day 4 - Departure", "activities": ["Breakfast", "Airport transfer"] }
+    ],
+    "included": ["Hotel accommodation", "Private transfers", "Museum admission", "Local guide", "Daily breakfast"],
+    "notIncluded": ["International flights", "Visa fees", "Personal expenses"]
+  }
+]

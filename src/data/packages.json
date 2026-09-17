@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "dubai-luxury-trip",
+    "name": "Dubai Luxury Trip",
+    "location": "Dubai, Uni Arab Emirates",
+    "category": "Adventure",
+    "rating": 5.0,
+    "reviewCount": 128,
+    "duration": "5 Days / 4 Nights",
+    "price": 150,
+    "badge": "Best Seller",
+    "image": "dubai.jpg",
+    "gallery": ["Banner Produck detail page.jpg", "People.jpg"],
+    "description": "Experience luxury travel at its finest in Dubai, a city that blends modern grandeur with the allure of the desert. From skydiving above Palm Jumeirah, to soaring up the world's tallest building at Burj Khalifa, to a sunset desert safari, this package is designed for travelers seeking an unforgettable getaway wrapped in luxury at every turn.",
+    "itinerary": [
+      {
+        "day": "Day 1 - Arrival & Welcome to Dubai",
+        "activities": [
+          "Airport pickup in a luxury vehicle",
+          "Check-in at a 5-star hotel",
+          "Relaxed evening city lights tour around Dubai Marina"
+        ]
+      },
+      { "day": "Day 2 - Sky High Adventure", "activities": ["Skydiving over Palm Jumeirah", "Burj Khalifa observation deck visit"] },
+      { "day": "Day 3 — Desert Safari & Culture", "activities": ["Sunset desert safari", "Traditional dinner under the stars"] },
+      { "day": "Day 4 — Leisure & Shopping", "activities": ["Free time at Dubai Mall", "Optional souk shopping tour"] },
+      { "day": "Day 5 — Departure", "activities": ["Hotel check-out", "Airport transfer"] }
+    ],
+    "included": [
+      "Hotel accommodation",
+      "Skydiving experience",
+      "Burj Khalifa entry",
+      "Desert safari & dinner",
+      "Airport transfers",
+      "Daily breakfast"
+    ],
+    "notIncluded": [
+      "International flights",
+      "Visa fees",
+      "Personal expenses",
+      "Additional meals",
+      "Tips & gratuities"
+    ]
+  },
+  {
+    "slug": "bali-paradise-escape",
+    "name": "Bali Paradise Escape",
+    "location": "Tanah Lot, Bali, Indonesia",
+    "category": "Beach",
+    "rating": 5.0,
+    "reviewCount": 96,
+    "duration": "4 Days / 3 Nights",
+    "price": 220,
+    "image": "Bali.jpg",
+    "gallery": ["Bali.jpg"],
+    "description": "Discover the spiritual and scenic beauty of Bali, from iconic sea temples to hidden waterfalls, wrapped in warm island hospitality.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Bali", "activities": ["Airport pickup", "Check-in at beachfront villa"] },
+      { "day": "Day 2 - Tanah Lot & Culture", "activities": ["Tanah Lot temple visit", "Traditional dance performance"] },
+      { "day": "Day 3 - Waterfalls & Rice Terraces", "activities": ["Tegalalang rice terrace", "Waterfall trekking"] },
+      { "day": "Day 4 - Departure", "activities": ["Free morning", "Airport transfer"] }
+    ],
+    "included": ["Villa accommodation", "Local guide", "Daily breakfast", "Airport transfers"],
+    "notIncluded": ["International flights", "Personal expenses", "Additional meals"]
+  },
+  {
+    "slug": "roman-holiday-escape",
+    "name": "Roman Holiday Escape",
+    "location": "Roma, Italy",
+    "category": "City",
+    "rating": 5.0,
+    "reviewCount": 210,
+    "duration": "6 Days / 5 Nights",
+    "price": 850,
+    "image": "Roma.jpg",
+    "gallery": ["Roma.jpg"],
+    "description": "Walk through centuries of history in Rome — from the Trevi Fountain to the Colosseum — paired with authentic Italian culinary experiences.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Rome", "activities": ["Airport pickup", "Evening walk near Trevi Fountain"] },
+      { "day": "Day 2 - Ancient Rome", "activities": ["Colosseum tour", "Roman Forum"] },
+      { "day": "Day 3 - Vatican City", "activities": ["Vatican Museums", "St. Peter's Basilica"] },
+      { "day": "Day 4 - Culinary Rome", "activities": ["Pasta making class", "Local market tour"] },
+      { "day": "Day 5 - Leisure", "activities": ["Free day for shopping"] },
+      { "day": "Day 6 - Departure", "activities": ["Airport transfer"] }
+    ],
+    "included": ["Hotel accommodation", "Guided tours", "Daily breakfast", "Airport transfers"],
+    "notIncluded": ["International flights", "Personal expenses", "Additional meals"]
+  },
+  {
+    "slug": "tokyo-sakura-escape",
+    "name": "Tokyo Sakura Escape",
+    "location": "Tokyo, Japan",
+    "category": "City",
+    "rating": 5.0,
+    "reviewCount": 174,
+    "duration": "6 Days / 5 Nights",
+    "price": 1150,
+    "image": "japan.jpg",
+    "gallery": ["japan.jpg"],
+    "description": "Experience Tokyo in full bloom — from serene cherry blossom parks to the neon energy of Shibuya — a journey balancing tradition and modernity.",
+    "itinerary": [
+      { "day": "Day 1 - Arrival in Tokyo", "activities": ["Airport pickup", "Check-in hotel"] },
+      { "day": "Day 2 - Sakura & Parks", "activities": ["Ueno Park cherry blossoms", "Traditional tea ceremony"] },
+      { "day": "Day 3 - Modern Tokyo", "activities": ["Shibuya Crossing", "Harajuku shopping"] },
+      { "day": "Day 4 - Culture Day", "activities": ["Senso-ji Temple", "Asakusa district"] },
+      { "day": "Day 5 - Leisure", "activities": ["Free day"] },
+      { "day": "Day 6 - Departure", "activities": ["Airport transfer"] }
+    ],
+    "included": ["Hotel accommodation", "Guided tours", "Daily breakfast", "Airport transfers"],
+    "notIncluded": ["International flights", "Personal expenses", "Additional meals"]
+  }
+]

@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets'
+
+interface Props {
+  slug: string
+  name: string
+  location: string
+  duration: string
+  price: number
+  rating: number
+  image: ImageMetadata
+}
+
+const { slug, name, location, duration, price, rating, image } = Astro.props
+const formattedPrice = price.toLocaleString('en-US')
+---
+
+<article class="package-card">
+  <Image src={image} alt={name} class="package-image" />
+
+  <div class="package-heading">
+    <h3>{name}</h3>
+    <p>{location}</p>
+  </div>
+
+  <div class="package-meta">
+    <p class="duration">{duration}</p>
+    <div class="stars" aria-label={`${rating.toFixed(1)} out of 5 stars`}>
+      {Array.from({ length: 5 }).map(() => (
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m8 1.2 2.05 4.15 4.58.67-3.31 3.22.78 4.56L8 11.65 3.9 13.8l.78-4.56-3.31-3.22 4.58-.67L8 1.2Z" /></svg>
+      ))}
+    </div>
+    <p class="price">${formattedPrice}</p>
+    <p class="per-person">Per Person</p>
+  </div>
+
+  <a href={`/package/${slug}`} class="details-button">View Details</a>
+</article>
+
+<style>
+  .package-card {
+    position: relative;
+    width: min(100%, 325px);
+    height: 488px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 0 8px rgb(0 0 0 / 25%);
+  }
+
+  .package-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 206px;
+    object-fit: cover;
+  }
+
+  .package-heading {
+    position: absolute;
+    top: 212px;
+    right: 19px;
+    left: 20px;
+    display: flex;
+    height: 72px;
+    padding-block: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    border-bottom: 1px solid #d7d7d7;
+  }
+
+  .package-heading h3 {
+    width: 100%;
+    overflow: hidden;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .package-heading p,
+  .duration,
+  .per-person {
+    color: #929292;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .package-heading p {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .package-meta {
+    position: absolute;
+    top: 301px;
+    left: 20px;
+    display: flex;
+    min-width: 110px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .stars { display: inline-flex; align-items: center; color: #fc9e1b; }
+  .stars svg { fill: currentColor; }
+
+  .price {
+    color: #50635f;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .details-button {
+    position: absolute;
+    right: 19px;
+    bottom: 20px;
+    left: 20px;
+    display: inline-flex;
+    min-height: 46px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #50635f;
+    border-radius: 8px;
+    color: #50635f;
+    background: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.35;
+    transition: color 200ms ease, background-color 200ms ease;
+  }
+
+  .details-button:hover,
+  .details-button:focus-visible { color: white; background: #50635f; }
+</style>

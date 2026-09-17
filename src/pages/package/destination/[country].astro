@@ -1,0 +1,135 @@
+---
+import { Image } from 'astro:assets'
+import Layout from '../../../layouts/Layout.astro'
+import Navbar from '../../../components/Navbar.astro'
+import Footer from '../../../components/Footer.astro'
+import PackageCard from '../../../components/PackageCard.astro'
+import packagesData from '../../../data/packages.json'
+import { destinationCountries } from '../../../data/destinations'
+
+import italyImg from '../../../assets/Italy.jpg'
+import indonesiaImg from '../../../assets/Indonesia.jpg'
+import japanImg from '../../../assets/japan.jpg'
+import baliImg from '../../../assets/Bali.jpg'
+import romaImg from '../../../assets/Roma.jpg'
+
+const imageMap: Record<string, ImageMetadata> = {
+  'Bali.jpg': baliImg,
+  'Roma.jpg': romaImg,
+  'japan.jpg': japanImg,
+}
+
+const countryImageMap: Record<string, ImageMetadata> = {
+  italy: italyImg,
+  indonesia: indonesiaImg,
+  japan: japanImg,
+}
+
+export function getStaticPaths() {
+  return destinationCountries.map((country) => ({
+    params: { country: country.slug },
+    props: { country },
+  }))
+}
+
+const { country } = Astro.props
+const countryImage = countryImageMap[country.slug]
+const countryPackages = packagesData.filter((pkg) => country.packageSlugs.includes(pkg.slug))
+---
+
+<Layout title={`${country.name} Travel Packages — Tripova`}>
+  <Navbar />
+
+  <main>
+    <section id="hero" class="country-hero">
+      <Image src={countryImage} alt={`${country.name} travel destination`} class="country-image" widths={[768, 1280, 1920]} sizes="100vw" />
+      <div class="country-shade"></div>
+      <div class="country-copy">
+        <p>Explore destination</p>
+        <h1>{country.name}</h1>
+        <span>{country.description}</span>
+      </div>
+    </section>
+
+    <section class="country-packages" aria-labelledby="country-packages-title">
+      <header class="country-heading">
+        <div>
+          <p>Available journeys</p>
+          <h2 id="country-packages-title">Packages in {country.name}</h2>
+        </div>
+        <a href="/package">&#8592; All destinations</a>
+      </header>
+
+      <div class="country-package-grid">
+        {countryPackages.map((pkg) => (
+          <PackageCard
+            slug={pkg.slug}
+            name={pkg.name}
+            location={pkg.location}
+            duration={pkg.duration}
+            price={pkg.price}
+            rating={pkg.rating}
+            image={imageMap[pkg.image]}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="country-cta">
+      <div>
+        <p>Need something more personal?</p>
+        <h2>We Can Customize Your {country.name} Journey.</h2>
+      </div>
+      <a href="/contact">Talk to a Travel Consultant <span aria-hidden="true">&#8599;</span></a>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .country-hero {
+    --page-gutter: clamp(8px, 1.53vw, 22px);
+    position: relative;
+    width: calc(100% - (var(--page-gutter) * 2));
+    height: min(72svh, 680px);
+    min-height: 540px;
+    margin: var(--page-gutter) auto 0;
+    overflow: hidden;
+    border-radius: 43px;
+    color: white;
+  }
+
+  .country-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .country-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgb(8 14 12 / 72%), rgb(8 14 12 / 12%) 72%), linear-gradient(0deg, rgb(8 14 12 / 34%), transparent 55%); }
+  .country-copy { position: absolute; bottom: 58px; left: 48px; width: min(calc(100% - 96px), 720px); }
+  .country-copy > p { font: 700 12px/1.3 'Open Sans', sans-serif; letter-spacing: 0.18em; text-transform: uppercase; }
+  .country-copy h1 { margin-top: 8px; font-family: Caudex, serif; font-size: clamp(62px, 7vw, 100px); font-weight: 700; line-height: 0.98; }
+  .country-copy span { display: block; width: min(100%, 620px); margin-top: 16px; color: rgb(255 255 255 / 82%); font: 400 16px/1.65 'Open Sans', sans-serif; }
+
+  .country-packages { width: min(calc(100% - 44px), 1354px); margin: 160px auto; }
+  .country-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; padding-bottom: 26px; border-bottom: 1px solid #d7d7d7; }
+  .country-heading > div > p { color: #50635f; font: 700 12px/1.3 'Open Sans', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; }
+  .country-heading h2 { margin-top: 8px; color: #2c2c2a; font-family: Caudex, serif; font-size: clamp(42px, 4vw, 58px); font-weight: 700; line-height: 1.08; }
+  .country-heading > a { color: #50635f; font: 600 14px/1.4 'Open Sans', sans-serif; }
+  .country-package-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 325px)); gap: 18px; margin-top: 64px; }
+
+  .country-cta { display: flex; width: min(calc(100% - 44px), 1354px); margin: 0 auto 160px; padding: 54px 60px; align-items: center; justify-content: space-between; gap: 48px; border-radius: 20px; color: white; background: #50635f; }
+  .country-cta p { color: rgb(255 255 255 / 66%); font: 600 12px/1.3 'Open Sans', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; }
+  .country-cta h2 { max-width: 700px; margin-top: 8px; font-family: Caudex, serif; font-size: clamp(34px, 3.5vw, 50px); font-weight: 700; line-height: 1.08; }
+  .country-cta > a { display: inline-flex; flex: 0 0 auto; min-height: 50px; padding: 10px 12px 10px 20px; align-items: center; gap: 18px; border-radius: 999px; color: #50635f; background: white; font: 700 14px/1 'Open Sans', sans-serif; }
+  .country-cta > a span { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: #e2e0c9; }
+
+  @media (max-width: 1199px) {
+    .country-package-grid { grid-template-columns: repeat(2, minmax(0, 325px)); justify-content: center; }
+  }
+
+  @media (max-width: 767px) {
+    .country-hero { min-height: 600px; border-radius: 28px; }
+    .country-copy { right: 24px; bottom: 42px; left: 24px; width: auto; }
+    .country-packages { width: calc(100% - 32px); margin-block: 110px; }
+    .country-heading { align-items: flex-start; flex-direction: column; gap: 18px; }
+    .country-package-grid { grid-template-columns: minmax(0, 325px); }
+    .country-cta { width: calc(100% - 32px); margin-bottom: 110px; padding: 38px 24px; align-items: flex-start; flex-direction: column; }
+  }
+</style>

@@ -1,0 +1,277 @@
+---
+import { Image } from 'astro:assets'
+import italyImg from '../assets/Italy.jpg'
+import indonesiaImg from '../assets/Indonesia.jpg'
+import japanImg from '../assets/japan.jpg'
+
+const destinations = [
+  { name: 'Italy', packages: 14, image: italyImg, description: 'Italy is celebrated for its rich history, timeless art, and stunning Mediterranean coastline.' },
+  { name: 'Indonesia', packages: 14, image: indonesiaImg, description: 'Indonesia, officially the Republic of Indonesia, is a Southeast Asian archipelago made up of over 17,000 islands, home to lush landscapes and vibrant culture.' },
+  { name: 'Japan', packages: 20, image: japanImg, description: 'Japan is known for blending centuries-old tradition with cutting-edge modern life.' },
+]
+---
+
+<section id="gallery" class="popular-destination">
+  <header class="section-heading">
+    <h2>Popular Destination</h2>
+    <p>From tropical beaches to mountain hideaways these are the trips travelers are booking right now.</p>
+  </header>
+
+  <div class="destination-list">
+    {destinations.map((destination) => (
+      <article class="destination-card" tabindex="0">
+        <div class="image-shell">
+          <Image src={destination.image} alt={destination.name} class="destination-image" />
+          <div class="image-shade"></div>
+
+          <div class="hover-content">
+            <div class="destination-copy">
+              <h3>{destination.name}</h3>
+              <p class="package-count package-count-light">
+                <svg viewBox="0 0 18 18" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9 1.5a5.25 5.25 0 0 0-5.25 5.25c0 3.94 5.25 9.75 5.25 9.75s5.25-5.81 5.25-9.75A5.25 5.25 0 0 0 9 1.5Zm0 7.13a1.88 1.88 0 1 1 0-3.76 1.88 1.88 0 0 1 0 3.76Z" /></svg>
+                <span>{destination.packages} Packages</span>
+              </p>
+              <p class="description">{destination.description}</p>
+            </div>
+
+            <div class="actions">
+              <a href="#packages" class="book-button">Book Now</a>
+              <a href={`https://wa.me/?text=${encodeURIComponent('Halo, saya ingin konsultasi paket wisata ' + destination.name)}`} target="_blank" rel="noreferrer" class="consultation-button">Consultation</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-caption">
+          <h3>{destination.name}</h3>
+          <p class="package-count">
+            <svg viewBox="0 0 18 18" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M9 1.5a5.25 5.25 0 0 0-5.25 5.25c0 3.94 5.25 9.75 5.25 9.75s5.25-5.81 5.25-9.75A5.25 5.25 0 0 0 9 1.5Zm0 7.13a1.88 1.88 0 1 1 0-3.76 1.88 1.88 0 0 1 0 3.76Z" /></svg>
+            <span>{destination.packages} Packages</span>
+          </p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+</section>
+
+<style>
+  .popular-destination {
+    display: flex;
+    width: min(100%, 1424px);
+    margin: 180px auto 0;
+    padding-block: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 76px;
+  }
+
+  .section-heading {
+    display: flex;
+    width: min(100%, 814px);
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-heading h2 {
+    width: 100%;
+    color: #50635f;
+    font-family: Caudex, serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .section-heading p {
+    width: 100%;
+    color: #50635f;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .destination-list {
+    display: flex;
+    width: 100%;
+    height: 590px;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .destination-card {
+    position: relative;
+    width: 382px;
+    height: 590px;
+    min-width: 0;
+    flex: 0 1 382px;
+    outline: none;
+    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1), flex-basis 500ms cubic-bezier(0.22, 1, 0.36, 1), flex-grow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .image-shell {
+    position: relative;
+    width: 100%;
+    height: 506px;
+    overflow: hidden;
+    border-radius: 20px;
+    transition: height 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .destination-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .image-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 70%), transparent 70%);
+    opacity: 0;
+    transition: opacity 350ms ease;
+  }
+
+  .card-caption {
+    position: absolute;
+    top: 527px;
+    left: 0;
+    display: flex;
+    width: 130px;
+    flex-direction: column;
+    gap: 4px;
+    transition: opacity 200ms ease, transform 300ms ease;
+  }
+
+  .card-caption h3,
+  .hover-content h3 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .card-caption h3 { color: black; }
+
+  .destination-card:nth-child(3) .card-caption { top: 536px; }
+
+  .package-count {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 8px;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .package-count svg { flex: 0 0 18px; color: #50635f; }
+
+  .hover-content {
+    position: absolute;
+    bottom: 38px;
+    left: 34px;
+    display: flex;
+    width: 317px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 21px;
+    color: white;
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition: opacity 300ms ease 100ms, transform 400ms ease 100ms;
+  }
+
+  .destination-copy { display: flex; width: 100%; flex-direction: column; gap: 12px; }
+  .package-count-light { color: white; }
+  .package-count-light svg { color: white; }
+
+  .description {
+    width: 100%;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .actions { display: inline-flex; align-items: center; gap: 10px; }
+
+  .book-button,
+  .consultation-button {
+    display: inline-flex;
+    min-height: 40px;
+    padding: 9px 16px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 6px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    transition: color 250ms ease, background-color 250ms ease;
+  }
+
+  .book-button { color: black; background: white; }
+  .book-button:hover, .book-button:focus-visible { color: white; background: transparent; }
+  .consultation-button { padding-inline: 14px; color: white; background: transparent; }
+  .consultation-button:hover, .consultation-button:focus-visible { color: black; background: white; }
+
+  .destination-card:hover,
+  .destination-card:focus-within,
+  .destination-card:focus {
+    width: 632px;
+    flex-basis: 632px;
+  }
+
+  .destination-card:hover .image-shell,
+  .destination-card:focus-within .image-shell,
+  .destination-card:focus .image-shell { height: 536px; }
+
+  .destination-card:hover .destination-image,
+  .destination-card:focus-within .destination-image,
+  .destination-card:focus .destination-image { transform: scale(1.025); }
+
+  .destination-card:hover .image-shade,
+  .destination-card:focus-within .image-shade,
+  .destination-card:focus .image-shade,
+  .destination-card:hover .hover-content,
+  .destination-card:focus-within .hover-content,
+  .destination-card:focus .hover-content { opacity: 1; }
+
+  .destination-card:hover .hover-content,
+  .destination-card:focus-within .hover-content,
+  .destination-card:focus .hover-content { transform: translateY(0); pointer-events: auto; }
+
+  .destination-card:hover .card-caption,
+  .destination-card:focus-within .card-caption,
+  .destination-card:focus .card-caption { opacity: 0; transform: translateY(-8px); }
+
+  @media (max-width: 1100px) {
+    .destination-list { height: auto; flex-wrap: wrap; row-gap: 40px; }
+    .destination-card, .destination-card:hover, .destination-card:focus-within, .destination-card:focus { width: 342px; height: 536px; flex: 0 0 342px; }
+    .image-shell, .destination-card:hover .image-shell, .destination-card:focus-within .image-shell, .destination-card:focus .image-shell { height: 453px; }
+    .card-caption { top: 474px; }
+    .destination-card:nth-child(3) .card-caption { top: 474px; }
+    .hover-content { right: 24px; left: 24px; width: auto; }
+  }
+
+  @media (max-width: 639px) {
+    .popular-destination { width: min(100%, 420px); padding-block: 0; }
+    .section-heading h2 { font-size: 38px; }
+    .section-heading p { font-size: 17px; }
+    .destination-card, .destination-card:hover, .destination-card:focus-within, .destination-card:focus { width: min(100%, 342px); flex-basis: min(100%, 342px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .destination-card, .image-shell, .destination-image, .image-shade, .hover-content, .card-caption, .book-button, .consultation-button { transition: none; }
+  }
+</style>

@@ -1,0 +1,207 @@
+---
+interface Props {
+  alwaysSolid?: boolean
+}
+
+const { alwaysSolid = false } = Astro.props
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About us', href: '/about' },
+  { label: 'Package', href: '/package' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact', href: '/contact' },
+]
+---
+
+<header
+  id="site-header"
+  class:list={['site-header', { 'is-scrolled': alwaysSolid }]}
+  data-always-solid={String(alwaysSolid)}
+>
+  <nav class="site-nav flex items-center justify-between px-6 py-4 sm:px-9">
+    <a href="/" class="font-heading text-xl tracking-wide sm:text-2xl">TRIPOVA</a>
+
+    <ul class="hidden items-center gap-8 font-body text-sm md:flex">
+      {navLinks.map((link) => (
+        <li>
+          <a href={link.href} class="transition-opacity hover:opacity-70">{link.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    <button
+      class="text-2xl leading-none md:hidden"
+      id="menu-toggle"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      &#9776;
+    </button>
+  </nav>
+
+  <ul id="mobile-menu" class="mobile-menu mx-3 hidden flex-col gap-3 rounded-b-2xl px-6 py-5 font-body text-sm backdrop-blur-md md:hidden">
+    {navLinks.map((link) => (
+      <li><a href={link.href} class="block py-1">{link.label}</a></li>
+    ))}
+  </ul>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    z-index: 30;
+    top: 0.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    color: white;
+    transition: inset 250ms ease, background-color 250ms ease,
+      color 250ms ease, box-shadow 250ms ease;
+  }
+
+  .site-nav {
+    transition: min-height 250ms ease, padding 250ms ease,
+      border-radius 250ms ease, background-color 250ms ease,
+      backdrop-filter 250ms ease;
+  }
+
+  .site-header:not(.is-scrolled) {
+    top: calc(clamp(8px, 1.53vw, 22px) + 25px);
+    right: calc(clamp(8px, 1.53vw, 22px) + 48px);
+    left: calc(clamp(8px, 1.53vw, 22px) + 48px);
+  }
+
+  .site-header:not(.is-scrolled) .site-nav {
+    min-height: 60px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgb(80 99 95 / 20%);
+    backdrop-filter: blur(5px);
+  }
+
+  .site-header:not(.is-scrolled) .site-nav > a {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .site-header:not(.is-scrolled) .site-nav > ul {
+    gap: 60px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .mobile-menu {
+    background: rgb(52 67 63 / 90%);
+  }
+
+  .site-header.is-scrolled {
+    top: 0;
+    right: 0;
+    left: 0;
+    color: #2c2c2a;
+    background: rgb(255 255 255 / 96%);
+    box-shadow: 0 8px 30px rgb(44 44 42 / 10%);
+  }
+
+  .site-header.is-scrolled .site-nav {
+    width: calc(100% - (2 * (clamp(8px, 1.53vw, 22px) + 48px)));
+    min-height: 68px;
+    margin-inline: auto;
+    padding: 12px 18px;
+    border-radius: 0;
+    background: transparent;
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header.is-scrolled .site-nav > a {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .site-header.is-scrolled .site-nav > ul {
+    gap: 36px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .site-header.is-scrolled .mobile-menu {
+    color: #2c2c2a;
+    background: rgb(255 255 255 / 96%);
+  }
+
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .site-header:not(.is-scrolled) .site-nav > a,
+    .site-header.is-scrolled .site-nav > a {
+      font-size: 28px;
+    }
+
+    .site-header:not(.is-scrolled) .site-nav > ul,
+    .site-header.is-scrolled .site-nav > ul {
+      gap: 24px;
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .site-header:not(.is-scrolled) {
+      top: calc(clamp(8px, 1.53vw, 22px) + 12px);
+      right: calc(clamp(8px, 1.53vw, 22px) + 12px);
+      left: calc(clamp(8px, 1.53vw, 22px) + 12px);
+    }
+
+    .site-header:not(.is-scrolled) .site-nav {
+      min-height: 52px;
+      padding: 8px 16px;
+    }
+
+    .site-header:not(.is-scrolled) .site-nav > a {
+      font-size: 24px;
+    }
+
+    .site-header.is-scrolled .site-nav {
+      width: calc(100% - (2 * (clamp(8px, 1.53vw, 22px) + 12px)));
+      min-height: 60px;
+      padding: 10px 16px;
+    }
+
+    .site-header.is-scrolled .site-nav > a {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header')
+  const hero = document.getElementById('hero')
+  const toggle = document.getElementById('menu-toggle')
+  const menu = document.getElementById('mobile-menu')
+
+  const updateHeader = () => {
+    if (!header) return
+    if (header.dataset.alwaysSolid === 'true') {
+      header.classList.add('is-scrolled')
+      return
+    }
+    if (!hero) {
+      header.classList.add('is-scrolled')
+      return
+    }
+    const headerHeight = header.getBoundingClientRect().height
+    header.classList.toggle('is-scrolled', hero.getBoundingClientRect().bottom <= headerHeight)
+  }
+
+  updateHeader()
+  window.addEventListener('scroll', updateHeader, { passive: true })
+  window.addEventListener('resize', updateHeader)
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('flex')
+    menu?.classList.toggle('hidden', isOpen)
+    menu?.classList.toggle('flex', !isOpen)
+    toggle.setAttribute('aria-expanded', String(!isOpen))
+  })
+</script>

@@ -1,11 +1,24 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from '../layouts/Layout.astro'
+import Navbar from '../components/Navbar.astro'
+import HeroSection from '../components/HeroSection.astro'
+import PopularDestination from '../components/PopularDestination.astro'
+import BestTravelPackage from '../components/BestTravelPackage.astro'
+import EveryDetailSection from '../components/EveryDetailSection.astro'
+import Testimonial from '../components/Testimonial.astro'
+import ContactForm from '../components/ContactForm.astro'
+import Footer from '../components/Footer.astro'
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Tripova — Every Trip Has a Story">
+  <Navbar />
+  <HeroSection />
+  <main>
+    <PopularDestination />
+    <BestTravelPackage />
+    <EveryDetailSection />
+    <Testimonial />
+    <ContactForm />
+    <Footer />
+  </main>
 </Layout>

@@ -1,0 +1,144 @@
+---
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
+
+interface Props {
+  name: string
+  packages: number
+  image: ImageMetadata
+  href: string
+}
+
+const { name, packages, image, href } = Astro.props
+---
+
+<a class="country-card" href={href} aria-label={`View travel packages in ${name}`}>
+  <div class="country-card__image">
+    <Image
+      src={image}
+      alt={`${name} destination`}
+      class="country-card__photo"
+      widths={[382, 764]}
+      sizes="(max-width: 767px) calc(100vw - 44px), 382px"
+      loading="eager"
+    />
+    <div class="country-card__shade"></div>
+    <span class="country-card__arrow" aria-hidden="true">↗</span>
+  </div>
+
+  <div class="country-card__caption">
+    <h2>{name}</h2>
+    <p>
+      <svg viewBox="0 0 18 18" aria-hidden="true">
+        <path d="M9 16s5-4.66 5-9A5 5 0 0 0 4 7c0 4.34 5 9 5 9Z" fill="currentColor"></path>
+        <circle cx="9" cy="7" r="1.8" fill="white"></circle>
+      </svg>
+      <span>{packages} {packages === 1 ? 'Package' : 'Packages'}</span>
+    </p>
+  </div>
+</a>
+
+<style>
+  .country-card {
+    display: block;
+    width: 382px;
+    max-width: 100%;
+    min-width: 0;
+    color: #2c2c2a;
+    text-decoration: none;
+  }
+
+  .country-card__image {
+    position: relative;
+    width: 100%;
+    height: 506px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #e7ebe9;
+  }
+
+  .country-card__photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 500ms ease;
+  }
+
+  .country-card__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(24, 34, 32, 0.22));
+    opacity: 0;
+    transition: opacity 350ms ease;
+  }
+
+  .country-card__arrow {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    color: #50635f;
+    font: 600 22px/1 'Open Sans', sans-serif;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 350ms ease, transform 350ms ease;
+  }
+
+  .country-card__caption {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: 21px;
+  }
+
+  .country-card__caption h2 {
+    margin: 0;
+    font: 600 22px/1.35 'Open Sans', sans-serif;
+  }
+
+  .country-card__caption p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font: 400 12px/1.35 'Open Sans', sans-serif;
+  }
+
+  .country-card__caption svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: #50635f;
+  }
+
+  .country-card:hover .country-card__photo,
+  .country-card:focus-visible .country-card__photo {
+    transform: scale(1.035);
+  }
+
+  .country-card:hover .country-card__shade,
+  .country-card:hover .country-card__arrow,
+  .country-card:focus-visible .country-card__shade,
+  .country-card:focus-visible .country-card__arrow {
+    opacity: 1;
+  }
+
+  .country-card:hover .country-card__arrow,
+  .country-card:focus-visible .country-card__arrow {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 460px) {
+    .country-card__image {
+      height: auto;
+      aspect-ratio: 382 / 506;
+    }
+  }
+</style>

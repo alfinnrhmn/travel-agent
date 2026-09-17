@@ -1,0 +1,285 @@
+---
+import { Image } from 'astro:assets'
+import t1 from '../assets/testimonial 1.jpg'
+import t2 from '../assets/testimonial 2.jpg'
+import t3 from '../assets/testimonial 3.jpg'
+
+const testimonials = [
+  {
+    name: 'Kevin Anderson',
+    image: t1,
+    text: 'This trip was absolutely amazing! The team vibe was incredible, tons of fun activities on the beach, and our guide made every moment feel effortless and full of laughter.',
+  },
+  {
+    name: 'Sarah Mitchell',
+    image: t2,
+    text: "Tubing down that waterfall was an experience I'll never forget. The scenery was breathtaking, the water was refreshing, and the local team made sure we felt safe the entire time.",
+  },
+  {
+    name: 'James Carter',
+    image: t3,
+    text: 'Camping in the snow with that mountain backdrop was absolutely worth it! The team was so well-prepared, gear was top-notch, and despite the cold we stayed completely comfortable.',
+  },
+  {
+    name: 'Kevin Anderson',
+    image: t1,
+    text: 'This trip was absolutely amazing! The team vibe was incredible, tons of fun activities on the beach, and our guide made every moment feel effortless and full of laughter.',
+  },
+  {
+    name: 'Sarah Mitchell',
+    image: t2,
+    text: "Tubing down that waterfall was an experience I'll never forget. The scenery was breathtaking, the water was refreshing, and the local team made sure we felt safe the entire time.",
+  },
+]
+---
+
+<section class="testimonials-section">
+  <header class="testimonials-header">
+    <h2 class="font-heading">
+      <span class="text-[#8B8B87]">What</span><br />
+      <span class="font-bold text-[#2C2C2A]">Traveller</span>
+      <span class="text-[#8B8B87]"> Say</span>
+    </h2>
+    <p>Every journey tells a story. Here&apos;s what our travelers have to say about theirs.</p>
+  </header>
+
+  <div class="swiper testimonial-swiper">
+    <div class="swiper-wrapper">
+      {testimonials.map((testimonial, index) => (
+        <div class="swiper-slide" data-testimonial-index={index}>
+          <article class="testimonial-card">
+            <Image src={testimonial.image} alt={testimonial.name} class="testimonial-image" />
+
+            <div class="rating" aria-label="5.0 out of 5 stars">
+              <div class="stars">
+                {Array.from({ length: 5 }).map(() => (
+                  <svg viewBox="0 0 30 30" width="30" height="30" aria-hidden="true"><path d="m15 2.25 3.88 7.85 8.66 1.26-6.27 6.1 1.48 8.63L15 22.02l-7.75 4.07 1.48-8.63-6.27-6.1 8.66-1.26L15 2.25Z" /></svg>
+                ))}
+              </div>
+              <span>5.0</span>
+            </div>
+
+            <div class="testimonial-copy">
+              <p>{testimonial.text}</p>
+              <h3>&mdash; {testimonial.name}</h3>
+            </div>
+          </article>
+        </div>
+      ))}
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    display: flex;
+    width: min(100%, 1480px);
+    margin: 180px auto 0;
+    padding-block: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 81px;
+  }
+
+  .testimonials-header {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .testimonials-header h2 {
+    width: 549px;
+    flex: 0 0 549px;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 51.34px;
+  }
+
+  .testimonials-header p {
+    width: 435px;
+    margin-left: auto;
+    padding-top: 13px;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .testimonial-swiper {
+    width: 100%;
+    padding-bottom: 64px;
+  }
+
+  .testimonial-swiper .swiper-wrapper { align-items: flex-start; }
+
+  .testimonial-swiper .swiper-slide {
+    height: auto;
+  }
+
+  .testimonial-swiper .swiper-slide-active {
+    z-index: 2;
+  }
+
+  @media (min-width: 768px) {
+    /* Keep the visual gap after the scaled second card equal to spaceBetween. */
+    .testimonial-swiper .swiper-slide.is-third-visible .testimonial-card {
+      transform: translateX(-15%) scale(0.85);
+    }
+  }
+
+  .testimonial-card {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    opacity: 0.55;
+    transform: scale(0.85);
+    transform-origin: left top;
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms ease;
+  }
+
+  .testimonial-swiper .swiper-slide-active .testimonial-card {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .testimonial-image {
+    width: 100%;
+    height: 412px;
+    border-radius: 30px;
+    object-fit: cover;
+  }
+
+  .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .stars { display: flex; align-items: center; color: #fc9e1b; }
+  .stars svg { fill: currentColor; }
+
+  .rating > span {
+    color: #868686;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .testimonial-copy {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .testimonial-copy p {
+    color: #7d7d7d;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .testimonial-copy h3 {
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  :global(.testimonial-swiper .swiper-pagination) { bottom: 0; }
+  :global(.testimonial-swiper .swiper-pagination-bullet) {
+    width: 9px;
+    height: 9px;
+    background: #b9bfbd;
+    opacity: 1;
+    transition: width 250ms ease, border-radius 250ms ease, background-color 250ms ease;
+  }
+  :global(.testimonial-swiper .swiper-pagination-bullet-active) {
+    width: 28px;
+    border-radius: 999px;
+    background: #50635f;
+  }
+
+  @media (max-width: 767px) {
+    .testimonials-section { width: min(100%, 560px); gap: 56px; padding-block: 0; }
+    .testimonials-header { flex-direction: column; gap: 24px; }
+    .testimonials-header h2, .testimonials-header p { width: 100%; flex-basis: auto; }
+    .testimonials-header h2 { font-size: 40px; line-height: 1.08; }
+    .testimonials-header p { padding-top: 0; font-size: 18px; text-align: left; }
+    .testimonial-image { height: auto; aspect-ratio: 1 / 1; }
+    .testimonial-copy p { font-size: 17px; }
+    .testimonial-copy h3, .rating > span { font-size: 19px; }
+    .stars svg { width: 24px; height: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonial-card { transition: none; }
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper'
+  import { Pagination } from 'swiper/modules'
+  import 'swiper/css'
+  import 'swiper/css/pagination'
+
+  const swiperElement = document.querySelector('.testimonial-swiper')
+
+  if (swiperElement) {
+    const previousInstance = (swiperElement as HTMLElement & { swiper?: Swiper }).swiper
+    previousInstance?.destroy(true, true)
+
+    const syncThirdVisibleSlide = (swiper: Swiper) => {
+      const slides = Array.from(swiper.slides)
+      slides.forEach((slide) => slide.classList.remove('is-third-visible'))
+
+      if (window.matchMedia('(min-width: 768px)').matches && slides.length > 2) {
+        slides[(swiper.activeIndex + 2) % slides.length]?.classList.add('is-third-visible')
+      }
+    }
+
+    new Swiper(swiperElement as HTMLElement, {
+      modules: [Pagination],
+      slidesPerView: 1.3,
+      centeredSlides: false,
+      spaceBetween: 24,
+      speed: 500,
+      loop: true,
+      loopAdditionalSlides: 3,
+      grabCursor: true,
+      slideToClickedSlide: false,
+      observer: true,
+      observeParents: true,
+      pagination: {
+        el: '.testimonial-swiper .swiper-pagination',
+        clickable: true,
+      },
+      on: {
+        init: syncThirdVisibleSlide,
+        slideChange: syncThirdVisibleSlide,
+        loopFix: syncThirdVisibleSlide,
+        breakpoint: syncThirdVisibleSlide,
+        resize: syncThirdVisibleSlide,
+        click(swiper) {
+          const testimonialIndex = Number(swiper.clickedSlide?.dataset.testimonialIndex)
+          if (Number.isInteger(testimonialIndex)) swiper.slideToLoop(testimonialIndex)
+        },
+      },
+      breakpoints: {
+        768: { slidesPerView: 2.3 },
+        1024: { slidesPerView: 2.6 },
+      },
+    })
+  }
+</script>

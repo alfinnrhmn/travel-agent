@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets'
+import heroImg from '../assets/Image Hero.jpg'
+---
+
+<section id="hero" class="hero-section relative overflow-hidden">
+  <Image
+    src={heroImg}
+    alt="Danau pegunungan dengan perahu kayu"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+    widths={[640, 1024, 1600, 2400]}
+    sizes="100vw"
+    loading="eager"
+  />
+  <div class="hero-overlay absolute inset-0"></div>
+
+  <div class="hero-copy relative z-10 flex h-full flex-col justify-end text-white">
+    <h1 class="hero-title font-heading tracking-[-0.025em]">
+      Every Trip Has a Story.<br />What's Yours?
+    </h1>
+    <p class="hero-description font-body text-white/95">
+      From solo adventures and romantic getaways to family vacations, group escapes,
+      and unforgettable honeymoons &mdash; Tripovia has the perfect package for you.
+    </p>
+    <a
+      href="#packages"
+      class="hero-button group inline-flex w-fit items-center rounded-full bg-white font-body font-medium text-[#2C2C2A] transition-transform hover:-translate-y-0.5"
+    >
+      Find Your Package
+      <span class="hero-button-icon grid place-items-center rounded-full transition-transform group-hover:rotate-45" aria-hidden="true">&#8599;</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    --hero-gutter: clamp(8px, 1.53vw, 22px);
+    width: calc(100vw - (var(--hero-gutter) * 2));
+    height: calc(100vh - (var(--hero-gutter) * 2));
+    height: calc(100svh - (var(--hero-gutter) * 2));
+    min-height: 440px;
+    margin: var(--hero-gutter) auto 0;
+    border-radius: clamp(22px, 3vw, 43px);
+  }
+
+  .hero-copy {
+    padding-right: clamp(26px, 3.33vw, 48px);
+    padding-bottom: clamp(26px, 3.33vw, 48px);
+    padding-left: clamp(26px, 3.33vw, 48px);
+  }
+
+  .hero-overlay {
+    background: linear-gradient(308deg, rgb(0 0 0 / 40%) 0%, rgb(255 255 255 / 0%) 100%);
+  }
+
+  .hero-title {
+    width: min(53.9vw, 776px);
+    max-width: 100%;
+    font-size: clamp(36px, 4.305vw, 62px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .hero-description {
+    width: min(45.35vw, 653px);
+    max-width: 100%;
+    margin-top: clamp(6px, 0.7vw, 10px);
+    font-size: clamp(14px, 1.667vw, 24px);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .hero-button {
+    gap: 10px;
+    margin-top: clamp(14px, 1.6vw, 23px);
+    padding: 10px 10px 10px 20px;
+    font-size: clamp(12px, 1.389vw, 20px);
+    line-height: 1.2;
+  }
+
+  .hero-button-icon {
+    width: clamp(32px, 3.33vw, 48px);
+    height: clamp(32px, 3.33vw, 48px);
+    color: #50635f;
+    background: #e2e0c9;
+    font-size: clamp(14px, 1.4vw, 20px);
+  }
+
+  @media (max-width: 639px) {
+    .hero-title,
+    .hero-description {
+      width: 100%;
+    }
+
+    .hero-section {
+      min-height: 520px;
+    }
+  }
+</style>

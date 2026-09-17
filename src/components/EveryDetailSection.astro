@@ -1,0 +1,246 @@
+---
+import { Image } from 'astro:assets'
+import peopleImg from '../assets/People.jpg'
+import teamImg from '../assets/Team.jpg'
+
+const points = [
+  {
+    title: 'Custom Travel Plans',
+    text: 'We design every itinerary around your pace, budget, and travel style — never a generic template, never a wasted day.',
+    icon: 'send',
+  },
+  {
+    title: 'Trusted Local Guides',
+    text: 'Every trip is led by experienced local guides who know the destination inside out, so you can explore safely and comfortably.',
+    icon: 'user',
+  },
+  {
+    title: 'Easy Booking',
+    text: 'Choose your package, fill a short form, and get confirmed in minutes — no hidden fees, no complicated process.',
+    icon: 'check',
+  },
+]
+---
+
+<section id="about" class="every-detail">
+  <div class="visual-column">
+    <Image src={peopleImg} alt="Travelers planning a journey inside a van" class="people-image" />
+
+    <div class="team-image-wrap">
+      <Image src={teamImg} alt="Travelers enjoying a boat trip" class="team-image" />
+      <button type="button" class="play-button" aria-label="Play travel video">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m9 18 6-6-6-6Z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="content-column">
+    <div class="intro-copy">
+      <h2 class="section-title">
+        <span class="muted">Every </span><span class="accent">Detail, Planned </span><span class="muted">Around Your Story</span>
+      </h2>
+      <p class="section-description">
+        From planning to the final day of your trip, we make sure every step feels effortless so all you have to do is enjoy the journey.
+      </p>
+    </div>
+
+    <ol class="timeline">
+      {points.map((point, index) => (
+        <li class="timeline-item">
+          <span class:list={['timeline-icon', index === 2 ? 'timeline-icon-outline' : 'timeline-icon-solid']}>
+            {point.icon === 'send' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+            )}
+            {point.icon === 'user' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+            )}
+            {point.icon === 'check' && (
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6" /></svg>
+            )}
+          </span>
+          <div class="point-copy">
+            <h3>{point.title}</h3>
+            <p>{point.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .every-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 773fr) minmax(0, 549fr);
+    align-items: start;
+    gap: 49px;
+    width: min(100%, 1371px);
+    margin: 180px auto 0;
+    padding-block: 0;
+  }
+
+  .visual-column {
+    display: grid;
+    grid-template-columns: minmax(0, 418fr) minmax(0, 342fr);
+    align-items: start;
+    gap: 13px;
+  }
+
+  .people-image {
+    width: 100%;
+    aspect-ratio: 418 / 634;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+
+  .team-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 342 / 340;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+
+  .team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    color: white;
+    transform: translate(-50%, -50%);
+    transition: transform 200ms ease;
+  }
+
+  .play-button:hover { transform: translate(-50%, -50%) scale(1.1); }
+
+  .content-column {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 27px;
+  }
+
+  .intro-copy {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 11px;
+  }
+
+  .section-title {
+    width: 100%;
+    font-family: Caudex, serif;
+    font-size: clamp(36px, 3.333vw, 48px);
+    font-weight: 700;
+    line-height: 1.0696;
+  }
+
+  .section-title .muted { color: #919191; }
+  .section-title .accent { color: #50635f; }
+
+  .section-description {
+    width: min(100%, 470px);
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  .timeline {
+    position: relative;
+    display: grid;
+    width: min(100%, 428px);
+    height: 436px;
+    grid-template-rows: 165px 165px 106px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 52px;
+    bottom: 80px;
+    left: 25.5px;
+    width: 1px;
+    background: #50635f;
+  }
+
+  .timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    align-items: start;
+    column-gap: 21px;
+  }
+
+  .timeline-icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    border-radius: 37px;
+  }
+
+  .timeline-icon-solid { color: white; background: #50635f; }
+  .timeline-icon-outline { color: #50635f; border: 1px solid #d7d7d7; background: white; }
+
+  .point-copy {
+    display: flex;
+    padding-top: 5px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .point-copy h3 {
+    color: #50635f;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .point-copy p {
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 1023px) {
+    .every-detail { grid-template-columns: 1fr; width: min(100%, 760px); }
+    .content-column { width: min(100%, 549px); }
+  }
+
+  @media (max-width: 639px) {
+    .every-detail { width: min(100%, 560px); gap: 40px; padding-block: 0; }
+    .visual-column { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); gap: 8px; }
+    .people-image, .team-image-wrap { border-radius: 14px; }
+    .section-title { font-size: 34px; }
+    .section-description { font-size: 17px; }
+    .timeline { height: auto; grid-template-rows: none; gap: 32px; }
+    .timeline::before { bottom: 52px; }
+    .timeline-item { column-gap: 16px; }
+    .point-copy h3 { font-size: 19px; }
+    .point-copy p { font-size: 15px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .play-button { transition: none; }
+  }
+</style>

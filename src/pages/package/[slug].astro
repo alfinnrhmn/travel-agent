@@ -1,0 +1,354 @@
+---
+import { Image } from 'astro:assets'
+import Layout from '../../layouts/Layout.astro'
+import Navbar from '../../components/Navbar.astro'
+import Footer from '../../components/Footer.astro'
+import PackageCard from '../../components/PackageCard.astro'
+import packagesData from '../../data/packages.json'
+import pageOnlyProducts from '../../data/package-page-products.json'
+
+import dubaiImg from '../../assets/dubai.jpg'
+import baliImg from '../../assets/Bali.jpg'
+import romaImg from '../../assets/Roma.jpg'
+import japanImg from '../../assets/japan.jpg'
+import prambananImg from '../../assets/Prambanan.jpg'
+import minangImg from '../../assets/Minang.jpg'
+import rajaAmpatImg from '../../assets/Raja ampat.jpg'
+import bromoImg from '../../assets/bromo.jpg'
+import italyCoastImg from '../../assets/Italy2.jpg'
+import italyColosseumImg from '../../assets/italy3.jpg'
+import japanHakoneImg from '../../assets/Japan 2.jpg'
+import uaeAtlantisImg from '../../assets/UEA2.jpg'
+import uaeMosqueImg from '../../assets/UEA3.jpg'
+import bannerImg from '../../assets/Banner Produck detail page.jpg'
+import peopleImg from '../../assets/People.jpg'
+import teamImg from '../../assets/Team.jpg'
+
+const imageMap: Record<string, ImageMetadata> = {
+  'dubai.jpg': dubaiImg,
+  'Bali.jpg': baliImg,
+  'Roma.jpg': romaImg,
+  'japan.jpg': japanImg,
+  'Prambanan.jpg': prambananImg,
+  'Minang.jpg': minangImg,
+  'Raja ampat.jpg': rajaAmpatImg,
+  'bromo.jpg': bromoImg,
+  'Italy2.jpg': italyCoastImg,
+  'italy3.jpg': italyColosseumImg,
+  'Japan 2.jpg': japanHakoneImg,
+  'UEA2.jpg': uaeAtlantisImg,
+  'UEA3.jpg': uaeMosqueImg,
+  'Banner Produck detail page.jpg': bannerImg,
+  'People.jpg': peopleImg,
+}
+
+export function getStaticPaths() {
+  return [...packagesData, ...pageOnlyProducts].map((pkg) => ({
+    params: { slug: pkg.slug },
+    props: { pkg },
+  }))
+}
+
+const { pkg } = Astro.props
+const heroImage = imageMap[pkg.gallery[0]] ?? imageMap[pkg.image]
+const secondaryImage = imageMap[pkg.gallery[1] ?? pkg.image] ?? teamImg
+const glanceImages = [imageMap[pkg.image], secondaryImage, teamImg]
+const recommended = packagesData.filter((item) => item.slug !== pkg.slug).slice(0, 3)
+const estimatedTotal = pkg.price + 85
+---
+
+<Layout title={`${pkg.name} Travel Plan — Tripova`}>
+  <Navbar />
+
+  <main class="detail-page">
+    <section id="hero" class="plan-hero">
+      <Image src={heroImage} alt={pkg.name} class="plan-hero-image" widths={[768, 1280, 1920]} sizes="100vw" />
+      <div class="plan-hero-shade"></div>
+      <div class="plan-hero-copy">
+        <p>Travel Plan</p>
+        <h1>{pkg.name}</h1>
+        <span>{pkg.location}</span>
+      </div>
+    </section>
+
+    <div class="plan-content">
+      <section class="plan-intro">
+        <div>
+          <p class="section-label">Your journey at a glance</p>
+          <h2>A Thoughtful Plan for Every Day Away.</h2>
+        </div>
+        <p>{pkg.description}</p>
+      </section>
+
+      <div class="overview-grid">
+        <section class="glance-panel panel" aria-labelledby="glance-title">
+          <header class="panel-heading">
+            <h2 id="glance-title">Trip at a Glance</h2>
+            <span>{pkg.duration}</span>
+          </header>
+          <div class="glance-grid">
+            {pkg.itinerary.slice(0, 3).map((day, index) => (
+              <article class="glance-card">
+                <Image src={glanceImages[index]} alt={day.day} class="glance-image" widths={[320, 520]} sizes="220px" />
+                <p>Day {index + 1}</p>
+                <h3>{day.day.replace(/^Day \d+\s*[-—]\s*/, '')}</h3>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="information-panel panel" aria-labelledby="information-title">
+          <header class="panel-heading">
+            <h2 id="information-title">Package Information</h2>
+            <span>Tripova</span>
+          </header>
+          <div class="information-content">
+            <dl>
+              <div><dt>Destination</dt><dd>{pkg.location}</dd></div>
+              <div><dt>Duration</dt><dd>{pkg.duration}</dd></div>
+              <div><dt>Travel style</dt><dd>{pkg.category}</dd></div>
+              <div><dt>Rating</dt><dd><span>★★★★★</span> {pkg.rating.toFixed(1)}</dd></div>
+              <div><dt>Starting from</dt><dd>${pkg.price.toLocaleString('en-US')} / person</dd></div>
+            </dl>
+            <Image src={imageMap[pkg.image]} alt={pkg.location} class="information-image" widths={[420, 640]} sizes="360px" />
+          </div>
+        </section>
+      </div>
+
+      <section class="schedule-section panel" aria-labelledby="schedule-title">
+        <header class="panel-heading schedule-heading">
+          <div>
+            <p class="section-label">Day by day</p>
+            <h2 id="schedule-title">Schedule Table</h2>
+          </div>
+          <span>{pkg.itinerary.length} planned days</span>
+        </header>
+
+        <div class="schedule-list">
+          {pkg.itinerary.map((day, index) => (
+            <article class="schedule-day">
+              <div class="day-number">{String(index + 1).padStart(2, '0')}</div>
+              <div class="day-copy">
+                <h3>{day.day}</h3>
+                <div class="activity-list">
+                  {day.activities.map((activity, activityIndex) => (
+                    <p><span>{activityIndex === 0 ? 'Morning' : activityIndex === 1 ? 'Afternoon' : 'Evening'}</span>{activity}</p>
+                  ))}
+                </div>
+              </div>
+              <Image src={glanceImages[index % glanceImages.length]} alt={day.day} class="day-image" widths={[360, 560]} sizes="280px" />
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div class="stay-cost-grid">
+        <section class="stay-panel panel" aria-labelledby="stay-title">
+          <header class="panel-heading">
+            <h2 id="stay-title">Stay &amp; Experience</h2>
+            <span>Selected for comfort</span>
+          </header>
+          <div class="stay-gallery">
+            <Image src={secondaryImage} alt="Trip accommodation" class="stay-main-image" widths={[640, 960]} sizes="50vw" />
+            <Image src={teamImg} alt="Trip experience" class="stay-secondary-image" widths={[360, 560]} sizes="24vw" />
+          </div>
+          <div class="inclusion-grid">
+            <div class="included-list">
+              <h3>Included</h3>
+              <ul>{pkg.included.map((item) => <li><span class="included-icon" aria-hidden="true">✓</span>{item}</li>)}</ul>
+            </div>
+            <div class="excluded-list">
+              <h3>Not Included</h3>
+              <ul>{pkg.notIncluded.map((item) => <li><span class="excluded-icon" aria-hidden="true">×</span>{item}</li>)}</ul>
+            </div>
+          </div>
+        </section>
+
+        <aside class="cost-panel panel" aria-labelledby="cost-title">
+          <header class="panel-heading">
+            <h2 id="cost-title">Estimated Travel Costs</h2>
+            <span>Per person</span>
+          </header>
+          <Image src={imageMap[pkg.image]} alt={pkg.name} class="cost-image" widths={[480, 720]} sizes="40vw" />
+          <div class="cost-table">
+            <p><span>Package</span><strong>${pkg.price.toLocaleString('en-US')}</strong></p>
+            <p><span>Service &amp; planning</span><strong>$50</strong></p>
+            <p><span>Travel protection</span><strong>$35</strong></p>
+            <p class="cost-total"><span>Estimated total</span><strong>${estimatedTotal.toLocaleString('en-US')}</strong></p>
+          </div>
+          <a href="#booking" class="reserve-button">Reserve This Journey</a>
+        </aside>
+      </div>
+
+      <section id="booking" class="booking-section">
+        <div class="booking-copy">
+          <p class="section-label">Ready when you are</p>
+          <h2>Turn This Travel Plan Into Your Story.</h2>
+          <p>Send your preferred date and group size. Our consultant will confirm availability and help personalize the final details.</p>
+        </div>
+        <form class="booking-form">
+          <label>Full Name<input type="text" name="name" placeholder="Jane Smith" required /></label>
+          <label>Email<input type="email" name="email" placeholder="jane@email.com" required /></label>
+          <label>Travel Date<input type="date" name="date" required /></label>
+          <label>Travelers<input type="number" name="travelers" min="1" value="1" required /></label>
+          <label class="full-field">Notes<textarea name="notes" rows="3" placeholder="Tell us what would make this trip perfect..."></textarea></label>
+          <button type="submit">Request This Package</button>
+        </form>
+      </section>
+
+      <section class="recommended-section" aria-labelledby="recommended-title">
+        <header>
+          <p class="section-label">Keep exploring</p>
+          <h2 id="recommended-title">You May Also Like</h2>
+        </header>
+        <div class="recommended-grid">
+          {recommended.map((item) => (
+            <PackageCard
+              slug={item.slug}
+              name={item.name}
+              location={item.location}
+              duration={item.duration}
+              price={item.price}
+              rating={item.rating}
+              image={imageMap[item.image]}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .detail-page {
+    display: flow-root;
+    background: #eee8dc;
+  }
+
+  .plan-hero {
+    --page-gutter: clamp(8px, 1.53vw, 22px);
+    position: relative;
+    width: calc(100% - (var(--page-gutter) * 2));
+    height: calc(100svh - (var(--page-gutter) * 2));
+    min-height: 680px;
+    margin: var(--page-gutter) auto 0;
+    overflow: hidden;
+    border-radius: 43px;
+    color: white;
+    background: #26332f;
+  }
+
+  .plan-hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .plan-hero-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgb(7 13 11 / 58%), transparent 68%), linear-gradient(90deg, rgb(7 13 11 / 22%), transparent 60%); }
+  .plan-hero-copy { position: absolute; inset: 0; display: flex; padding: 130px 48px 72px; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .plan-hero-copy > p { font: 600 14px/1.3 'Open Sans', sans-serif; letter-spacing: 0.26em; text-transform: uppercase; }
+  .plan-hero-copy h1 { max-width: 1050px; margin-top: 12px; font-family: Caudex, serif; font-size: clamp(62px, 7vw, 108px); font-weight: 700; line-height: 0.96; }
+  .plan-hero-copy > span { margin-top: 22px; font: 500 15px/1.4 'Open Sans', sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  .plan-content { width: min(calc(100% - 44px), 1396px); margin: 0 auto; padding: 120px 0 180px; }
+  .plan-intro { display: grid; grid-template-columns: 1fr 0.9fr; align-items: end; gap: 80px; margin-bottom: 72px; }
+  .section-label { color: #50635f; font: 700 12px/1.3 'Open Sans', sans-serif; letter-spacing: 0.16em; text-transform: uppercase; }
+  .plan-intro h2, .booking-copy h2, .recommended-section > header h2 { margin-top: 10px; color: #2c2c2a; font-family: Caudex, serif; font-size: clamp(42px, 4vw, 58px); font-weight: 700; line-height: 1.06; }
+  .plan-intro > p { color: #5f625f; font: 400 16px/1.75 'Open Sans', sans-serif; }
+
+  .panel { border-radius: 20px; background: rgb(255 255 255 / 78%); box-shadow: 0 20px 60px rgb(67 59 47 / 7%); }
+  .panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .panel-heading h2 { color: #2c2c2a; font-family: Caudex, serif; font-size: 30px; font-weight: 700; line-height: 1.15; }
+  .panel-heading > span { color: #777972; font: 500 11px/1.4 'Open Sans', sans-serif; letter-spacing: 0.1em; text-align: right; text-transform: uppercase; }
+
+  .overview-grid { display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 28px; }
+  .glance-panel, .information-panel, .stay-panel, .cost-panel { padding: 30px; }
+  .glance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+  .glance-card { min-width: 0; }
+  .glance-image { width: 100%; height: 190px; border-radius: 14px; object-fit: cover; }
+  .glance-card p { margin-top: 14px; color: #8b8b87; font: 500 12px/1.4 'Open Sans', sans-serif; }
+  .glance-card h3 { margin-top: 3px; color: #2c2c2a; font: 600 14px/1.4 'Open Sans', sans-serif; }
+
+  .information-content { display: grid; grid-template-columns: 1fr 0.92fr; gap: 26px; margin-top: 30px; }
+  .information-content dl { display: flex; flex-direction: column; justify-content: center; }
+  .information-content dl > div { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 14px; padding-block: 10px; border-bottom: 1px solid #d7d7d7; font: 400 13px/1.45 'Open Sans', sans-serif; }
+  .information-content dt { color: #8b8b87; }
+  .information-content dd { color: #2c2c2a; font-weight: 600; }
+  .information-content dd span { color: #fc9e1b; letter-spacing: 1px; }
+  .information-image { width: 100%; height: 280px; border-radius: 14px; object-fit: cover; }
+
+  .schedule-section { margin-top: 28px; padding: 36px; }
+  .schedule-heading { align-items: flex-end; }
+  .schedule-heading h2 { margin-top: 5px; font-size: 38px; }
+  .schedule-list { margin-top: 34px; }
+  .schedule-day { display: grid; grid-template-columns: 62px 1fr 280px; align-items: center; gap: 28px; padding-block: 22px; border-top: 1px solid #d7d7d7; }
+  .day-number { color: #50635f; font-family: Caudex, serif; font-size: 34px; font-weight: 700; }
+  .day-copy h3 { color: #2c2c2a; font: 700 18px/1.35 'Open Sans', sans-serif; }
+  .activity-list { display: grid; gap: 7px; margin-top: 13px; }
+  .activity-list p { display: grid; grid-template-columns: 82px 1fr; gap: 12px; color: #565956; font: 400 13px/1.45 'Open Sans', sans-serif; }
+  .activity-list p span { color: #91948f; font-size: 11px; text-transform: uppercase; }
+  .day-image { width: 100%; height: 144px; border-radius: 14px; object-fit: cover; }
+
+  .stay-cost-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; margin-top: 28px; align-items: start; }
+  .stay-gallery { display: grid; grid-template-columns: 1.5fr 0.75fr; gap: 12px; margin-top: 30px; }
+  .stay-main-image, .stay-secondary-image { width: 100%; height: 300px; border-radius: 14px; object-fit: cover; }
+  .inclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; margin-top: 30px; }
+  .inclusion-grid h3 { color: #50635f; font: 700 16px/1.4 'Open Sans', sans-serif; }
+  .inclusion-grid ul { display: grid; gap: 8px; margin-top: 12px; }
+  .inclusion-grid li { display: flex; gap: 9px; color: #5f625f; font: 400 13px/1.45 'Open Sans', sans-serif; }
+  .inclusion-grid li span { color: #50635f; font-weight: 700; }
+  .inclusion-grid .included-icon { color: #169c46 !important; }
+  .inclusion-grid .excluded-icon { color: #e03131 !important; }
+
+  .cost-panel { position: sticky; top: 88px; }
+  .cost-image { width: 100%; height: 250px; margin-top: 30px; border-radius: 14px; object-fit: cover; }
+  .cost-table { margin-top: 24px; }
+  .cost-table p { display: flex; padding-block: 11px; align-items: center; justify-content: space-between; border-bottom: 1px solid #d7d7d7; color: #666963; font: 400 13px/1.4 'Open Sans', sans-serif; }
+  .cost-table strong { color: #2c2c2a; }
+  .cost-table .cost-total { padding-top: 18px; border-bottom: 0; color: #2c2c2a; font-size: 16px; font-weight: 700; }
+  .cost-total strong { color: #50635f; font-size: 24px; }
+  .reserve-button { display: flex; min-height: 50px; margin-top: 20px; align-items: center; justify-content: center; border-radius: 999px; color: white; background: #50635f; font: 700 14px/1 'Open Sans', sans-serif; transition: transform 200ms ease, background-color 200ms ease; }
+  .reserve-button:hover { background: #3f514d; transform: translateY(-2px); }
+
+  .booking-section { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; margin-top: 120px; padding: 68px; border-radius: 20px; color: white; background: #50635f; }
+  .booking-section .section-label { color: rgb(255 255 255 / 65%); }
+  .booking-copy h2 { color: white; }
+  .booking-copy > p:last-child { margin-top: 20px; color: rgb(255 255 255 / 78%); font: 400 15px/1.7 'Open Sans', sans-serif; }
+  .booking-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+  .booking-form label { color: white; font: 600 12px/1.4 'Open Sans', sans-serif; }
+  .booking-form input, .booking-form textarea { width: 100%; margin-top: 7px; padding: 12px 14px; border: 1px solid rgb(255 255 255 / 24%); border-radius: 10px; color: white; background: rgb(255 255 255 / 9%); outline: none; font: 400 14px/1.4 'Open Sans', sans-serif; }
+  .booking-form input::placeholder, .booking-form textarea::placeholder { color: rgb(255 255 255 / 55%); }
+  .booking-form input:focus, .booking-form textarea:focus { border-color: white; }
+  .booking-form .full-field { grid-column: 1 / -1; }
+  .booking-form button { grid-column: 1 / -1; min-height: 50px; border-radius: 999px; color: #50635f; background: white; font: 700 14px/1 'Open Sans', sans-serif; }
+
+  .recommended-section { margin-top: 150px; }
+  .recommended-section > header { text-align: center; }
+  .recommended-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 325px)); justify-content: center; gap: 18px; margin-top: 58px; }
+
+  @media (max-width: 1023px) {
+    .overview-grid, .stay-cost-grid { grid-template-columns: 1fr; }
+    .cost-panel { position: static; }
+    .schedule-day { grid-template-columns: 52px 1fr 220px; }
+    .booking-section { grid-template-columns: 1fr; gap: 42px; padding: 48px; }
+    .recommended-grid { grid-template-columns: repeat(2, minmax(0, 325px)); }
+  }
+
+  @media (max-width: 767px) {
+    .plan-hero { min-height: 760px; border-radius: 28px; }
+    .plan-hero-copy { padding-inline: 22px; }
+    .plan-content { width: calc(100% - 28px); padding-block: 90px 120px; }
+    .plan-intro { grid-template-columns: 1fr; gap: 24px; }
+    .glance-panel, .information-panel, .stay-panel, .cost-panel, .schedule-section { padding: 22px; }
+    .glance-grid { grid-template-columns: 1fr; }
+    .glance-image { height: 240px; }
+    .information-content { grid-template-columns: 1fr; }
+    .schedule-day { grid-template-columns: 42px 1fr; align-items: start; }
+    .day-image { grid-column: 1 / -1; height: 210px; }
+    .activity-list p { grid-template-columns: 1fr; gap: 2px; }
+    .stay-gallery { grid-template-columns: 1fr; }
+    .stay-main-image, .stay-secondary-image { height: 240px; }
+    .inclusion-grid { grid-template-columns: 1fr; }
+    .booking-section { margin-top: 90px; padding: 34px 22px; }
+    .booking-form { grid-template-columns: 1fr; }
+    .booking-form .full-field, .booking-form button { grid-column: 1; }
+    .recommended-grid { grid-template-columns: minmax(0, 325px); }
+  }
+</style>
