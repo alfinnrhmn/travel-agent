@@ -37,7 +37,11 @@ const countryImage = countryImageMap[country.slug]
 const countryPackages = packagesData.filter((pkg) => country.packageSlugs.includes(pkg.slug))
 ---
 
-<Layout title={`${country.name} Travel Packages — Tripova`}>
+<Layout
+  title={`${country.name} Travel Packages — Tripova`}
+  description={`Explore personalized ${country.name} travel packages from Tripova. ${country.description}`}
+  image={countryImage.src}
+>
   <Navbar />
 
   <main>

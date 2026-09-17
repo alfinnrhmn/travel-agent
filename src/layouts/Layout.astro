@@ -3,24 +3,70 @@ import '../styles/global.css'
 
 interface Props {
   title?: string
+  description?: string
+  image?: string
+  type?: 'website' | 'article'
+  noindex?: boolean
 }
 
-const { title = 'Tripova — Every Trip Has a Story' } = Astro.props
+const defaultTitle = 'Tripova — Every Trip Has a Story'
+const defaultDescription = 'Discover personalized travel packages for solo adventures, couples, groups, families, and honeymoons with thoughtful planning from Tripova.'
+const {
+	title = defaultTitle,
+	description = defaultDescription,
+	image,
+	type = 'website',
+	noindex = false,
+} = Astro.props
+
+const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined
+const socialImage = image && Astro.site ? new URL(image, Astro.site).href : undefined
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'WebPage',
+	name: title,
+	description,
+	...(canonicalURL ? { url: canonicalURL.href } : {}),
+	isPartOf: {
+		'@type': 'WebSite',
+		name: 'Tripova',
+	},
+}
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+		<meta name="theme-color" content="#50635F" />
+		<meta name="author" content="Tripova" />
+
+		{canonicalURL && <link rel="canonical" href={canonicalURL} />}
+
+		<meta property="og:type" content={type} />
+		<meta property="og:site_name" content="Tripova" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		{canonicalURL && <meta property="og:url" content={canonicalURL} />}
+		{socialImage && <meta property="og:image" content={socialImage} />}
+
+		<meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{socialImage && <meta name="twitter:image" content={socialImage} />}
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 		<title>{title}</title>
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 	</head>
 	<body>
 		<slot />

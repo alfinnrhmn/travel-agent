@@ -57,7 +57,12 @@ const recommended = packagesData.filter((item) => item.slug !== pkg.slug).slice(
 const estimatedTotal = pkg.price + 85
 ---
 
-<Layout title={`${pkg.name} Travel Plan — Tripova`}>
+<Layout
+  title={`${pkg.name} Travel Plan — Tripova`}
+  description={pkg.description}
+  image={heroImage.src}
+  type="article"
+>
   <Navbar />
 
   <main class="detail-page">

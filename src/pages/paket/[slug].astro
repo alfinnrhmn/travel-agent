@@ -33,7 +33,13 @@ const { pkg } = Astro.props
 const recommended = packagesData.slice(0, 4)
 ---
 
-<Layout title={`${pkg.name} — Tripova`}>
+<Layout
+  title={`${pkg.name} — Tripova`}
+  description={pkg.description}
+  image={imageMap[pkg.gallery[0]].src}
+  type="article"
+  noindex
+>
   <Navbar />
 
   <main class="mx-auto max-w-[1402px] px-6 pb-10 pt-28">
