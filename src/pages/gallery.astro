@@ -98,7 +98,7 @@ const galleries = [
 <Layout
   title="Travel Gallery — Solo, Couple, Group & Honeymoon Trips | Tripova"
   description="Explore Tripova travel stories and destination inspiration for solo journeys, romantic escapes, group adventures, and unforgettable honeymoons."
-  image={heroImg.src}
+  image={heroImg}
 >
   <Navbar />
 
@@ -109,8 +109,10 @@ const galleries = [
         alt="Travellers exploring a beautiful destination"
         class="hero-image"
         widths={[900, 1400, 2000]}
+        width={2000}
         sizes="calc(100vw - 44px)"
-        loading="eager"
+        quality="high"
+        priority
       />
       <div class="hero-overlay"></div>
       <div class="hero-copy">
@@ -147,6 +149,7 @@ const galleries = [
                   alt={item.title}
                   class="travel-image"
                   widths={[480, 720, 1100]}
+                  width={1100}
                   sizes="(max-width: 767px) 100vw, (max-width: 1100px) 50vw, 60vw"
                 />
                 <div class="card-overlay"></div>
@@ -159,16 +162,16 @@ const galleries = [
                   <span>{item.location}</span>
                   <h3>{item.title}</h3>
                   <div class="traveller-faces" aria-hidden="true">
-                    <Image src={testimonialOneImg} alt="" />
-                    <Image src={testimonialTwoImg} alt="" />
-                    <Image src={testimonialThreeImg} alt="" />
+                    <Image src={testimonialOneImg} alt="" width={64} quality={82} />
+                    <Image src={testimonialTwoImg} alt="" width={64} quality={82} />
+                    <Image src={testimonialThreeImg} alt="" width={64} quality={82} />
                   </div>
                 </div>
               </article>
             ))}
 
             <article class="quote-card">
-              <Image src={gallery.quoteImage} alt="" class="quote-background" />
+              <Image src={gallery.quoteImage} alt="" class="quote-background" width={800} widths={[480, 800]} sizes="(max-width: 767px) 100vw, 40vw" quality={84} />
               <div class="quote-overlay"></div>
               <div class="quote-copy">
                 <p class="quote-label">Traveller note</p>

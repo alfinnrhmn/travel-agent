@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets'
 import Layout from '../../layouts/Layout.astro'
 import Navbar from '../../components/Navbar.astro'
 import Footer from '../../components/Footer.astro'
@@ -61,7 +62,7 @@ const productsPerPage = 8
 const initialPageCount = Math.ceil(catalogueProducts.length / productsPerPage)
 const minimumPrice = Math.min(...catalogueProducts.map((item) => item.price))
 const maximumPrice = Math.max(...catalogueProducts.map((item) => item.price))
-const aiPackageKnowledge = catalogueProducts.map((item) => ({
+const aiPackageKnowledge = await Promise.all(catalogueProducts.map(async (item) => ({
   slug: item.slug,
   name: item.name,
   country: packageCountries[item.slug],
@@ -70,11 +71,11 @@ const aiPackageKnowledge = catalogueProducts.map((item) => ({
   duration: item.duration,
   price: item.price,
   rating: item.rating,
-  image: imageMap[item.image].src,
+  image: (await getImage({ src: imageMap[item.image], width: 160, height: 152, fit: 'cover', format: 'webp', quality: 82 })).src,
   description: item.description,
   itinerary: item.itinerary,
   included: item.included,
-}))
+})))
 ---
 
 <Layout

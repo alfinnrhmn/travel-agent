@@ -9,7 +9,7 @@ import lakeImg from '../assets/lake.jpg'
 <Layout
   title="Contact Tripova — Plan Your Next Journey"
   description="Contact Tripova to plan a personalized journey that fits your destination, travel style, budget, and schedule with help from our travel consultants."
-  image={lakeImg.src}
+  image={lakeImg}
 >
   <Navbar />
 
@@ -20,7 +20,10 @@ import lakeImg from '../assets/lake.jpg'
         alt="A peaceful mountain lake surrounded by nature"
         class="absolute inset-0 h-full w-full object-cover"
         widths={[640, 1024, 1600]}
+        width={1600}
         sizes="100vw"
+        quality="high"
+        priority
       />
       <div class="absolute inset-0 bg-gradient-to-r from-[#263A36]/90 via-[#50635F]/65 to-[#50635F]/20"></div>
       <div class="relative flex min-h-[360px] max-w-6xl items-end px-7 pb-10 text-white sm:min-h-[430px] sm:px-12 sm:pb-14 lg:px-16">

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets'
+import { Image, getImage } from 'astro:assets'
 import indonesiaImg from '../assets/Indonesia.jpg'
 import italyImg from '../assets/Italy.jpg'
 import japanImg from '../assets/japan.jpg'
@@ -11,10 +11,23 @@ const destinations = [
 ]
 
 const featured = destinations[0]
+const optimizedBackgrounds = await Promise.all(
+  destinations.map(({ image }) => getImage({ src: image, width: 1600, format: 'webp', quality: 'high' })),
+)
 ---
 
 <section id="hero" class="package-listing-hero" aria-labelledby="package-hero-title">
-  <img id="package-hero-background" class="hero-background" src={featured.image.src} alt={featured.name} />
+  <Image
+    id="package-hero-background"
+    class="hero-background"
+    src={featured.image}
+    alt={`${featured.name} travel destination`}
+    widths={[640, 1024, 1600]}
+    width={1600}
+    sizes="100vw"
+    quality="high"
+    priority
+  />
   <div class="hero-shade"></div>
 
   <div class="hero-frame">
@@ -38,10 +51,10 @@ const featured = destinations[0]
             data-index={index}
             data-name={destination.name}
             data-region={destination.region}
-            data-image={destination.image.src}
+            data-image={optimizedBackgrounds[index].src}
             aria-pressed={index === 0 ? 'true' : 'false'}
           >
-            <Image src={destination.image} alt={destination.location} class="hero-card-image" widths={[260, 420]} sizes="220px" />
+            <Image src={destination.image} alt={destination.location} class="hero-card-image" width={420} widths={[260, 420]} sizes="220px" quality={84} />
             <span class="hero-card-shade"></span>
             <span class="hero-card-mark" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4V3Z"></path></svg>
@@ -165,6 +178,8 @@ const featured = destinations[0]
 
     background.classList.add('is-changing')
     window.setTimeout(() => {
+      background.removeAttribute('srcset')
+      background.removeAttribute('sizes')
       background.src = card.dataset.image ?? background.src
       background.alt = card.dataset.name ?? ''
       region.textContent = `${card.dataset.region ?? ''} · ${card.dataset.name ?? ''}`

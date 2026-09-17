@@ -40,13 +40,13 @@ const countryPackages = packagesData.filter((pkg) => country.packageSlugs.includ
 <Layout
   title={`${country.name} Travel Packages — Tripova`}
   description={`Explore personalized ${country.name} travel packages from Tripova. ${country.description}`}
-  image={countryImage.src}
+  image={countryImage}
 >
   <Navbar />
 
   <main>
     <section id="hero" class="country-hero">
-      <Image src={countryImage} alt={`${country.name} travel destination`} class="country-image" widths={[768, 1280, 1920]} sizes="100vw" />
+      <Image src={countryImage} alt={`${country.name} travel destination`} class="country-image" width={1920} widths={[640, 1024, 1600, 1920]} sizes="100vw" quality="high" priority />
       <div class="country-shade"></div>
       <div class="country-copy">
         <p>Explore destination</p>
@@ -61,7 +61,7 @@ const countryPackages = packagesData.filter((pkg) => country.packageSlugs.includ
           <p>Available journeys</p>
           <h2 id="country-packages-title">Packages in {country.name}</h2>
         </div>
-        <a href="/package">&#8592; All destinations</a>
+        <a href="/package/">&#8592; All destinations</a>
       </header>
 
       <div class="country-package-grid">

@@ -21,7 +21,7 @@ const destinations = [
     {destinations.map((destination) => (
       <article class="destination-card" tabindex="0">
         <div class="image-shell">
-          <Image src={destination.image} alt={destination.name} class="destination-image" />
+          <Image src={destination.image} alt={`${destination.name} travel destination`} class="destination-image" width={960} widths={[480, 768, 960]} sizes="(max-width: 767px) 100vw, 33vw" quality={84} />
           <div class="image-shade"></div>
 
           <div class="hover-content">

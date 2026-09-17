@@ -1,12 +1,15 @@
 ---
+import { getImage } from 'astro:assets'
 import '../styles/global.css'
 
 interface Props {
   title?: string
   description?: string
-  image?: string
+  image?: ImageMetadata | string
   type?: 'website' | 'article'
   noindex?: boolean
+  schema?: Record<string, unknown> | Record<string, unknown>[]
+  canonicalPath?: string
 }
 
 const defaultTitle = 'Tripova — Every Trip Has a Story'
@@ -17,20 +20,53 @@ const {
 	image,
 	type = 'website',
 	noindex = false,
+	schema,
+	canonicalPath,
 } = Astro.props
 
-const canonicalURL = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined
-const socialImage = image && Astro.site ? new URL(image, Astro.site).href : undefined
+const canonicalURL = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, Astro.site) : undefined
+const metaDescription = description.length > 160
+	? `${description.slice(0, 157).replace(/\s+\S*$/, '')}…`
+	: description
+const optimizedSocialImage = image && Astro.site && typeof image !== 'string'
+	? await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 88 })
+	: undefined
+const socialImagePath = optimizedSocialImage?.src ?? (typeof image === 'string' ? image : undefined)
+const socialImage = socialImagePath && Astro.site ? new URL(socialImagePath, Astro.site).href : undefined
+const organizationId = canonicalURL ? new URL('/#organization', canonicalURL).href : '#organization'
+const websiteId = canonicalURL ? new URL('/#website', canonicalURL).href : '#website'
+const webpageId = canonicalURL ? `${canonicalURL.href}#webpage` : '#webpage'
+const extraSchema = schema ? (Array.isArray(schema) ? schema : [schema]) : []
 const structuredData = {
 	'@context': 'https://schema.org',
-	'@type': 'WebPage',
-	name: title,
-	description,
-	...(canonicalURL ? { url: canonicalURL.href } : {}),
-	isPartOf: {
-		'@type': 'WebSite',
-		name: 'Tripova',
-	},
+	'@graph': [
+		{
+			'@type': ['TravelAgency', 'Organization'],
+			'@id': organizationId,
+			name: 'Tripova',
+			...(canonicalURL ? { url: new URL('/', canonicalURL).href } : {}),
+		},
+		{
+			'@type': 'WebSite',
+			'@id': websiteId,
+			name: 'Tripova',
+			...(canonicalURL ? { url: new URL('/', canonicalURL).href } : {}),
+			publisher: { '@id': organizationId },
+			inLanguage: 'en',
+		},
+		{
+			'@type': 'WebPage',
+			'@id': webpageId,
+			name: title,
+			description,
+			...(canonicalURL ? { url: canonicalURL.href } : {}),
+			isPartOf: { '@id': websiteId },
+			about: { '@id': organizationId },
+			inLanguage: 'en',
+			...(socialImage ? { primaryImageOfPage: { '@type': 'ImageObject', url: socialImage } } : {}),
+		},
+		...extraSchema,
+	],
 }
 ---
 
@@ -41,7 +77,7 @@ const structuredData = {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
+		<meta name="description" content={metaDescription} />
 		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
 		<meta name="theme-color" content="#50635F" />
 		<meta name="author" content="Tripova" />
@@ -52,18 +88,23 @@ const structuredData = {
 		<meta property="og:site_name" content="Tripova" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
+		<meta property="og:description" content={metaDescription} />
 		{canonicalURL && <meta property="og:url" content={canonicalURL} />}
 		{socialImage && <meta property="og:image" content={socialImage} />}
+		{socialImage && <meta property="og:image:width" content="1200" />}
+		{socialImage && <meta property="og:image:height" content="630" />}
+		{socialImage && <meta property="og:image:alt" content={title} />}
 
 		<meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
 		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
+		<meta name="twitter:description" content={metaDescription} />
 		{socialImage && <meta name="twitter:image" content={socialImage} />}
 
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" />
+		<link href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+		<noscript><link href="https://fonts.googleapis.com/css2?family=Caudex:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
 
 		<title>{title}</title>
 		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

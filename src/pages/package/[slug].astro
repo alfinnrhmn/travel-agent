@@ -60,14 +60,27 @@ const estimatedTotal = pkg.price + 85
 <Layout
   title={`${pkg.name} Travel Plan — Tripova`}
   description={pkg.description}
-  image={heroImage.src}
+  image={heroImage}
   type="article"
+  schema={{
+    '@type': 'TouristTrip',
+    name: pkg.name,
+    description: pkg.description,
+    touristType: pkg.category,
+    offers: {
+      '@type': 'Offer',
+      price: pkg.price,
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      ...(Astro.site ? { url: new URL(Astro.url.pathname, Astro.site).href } : {}),
+    },
+  }}
 >
   <Navbar />
 
   <main class="detail-page">
     <section id="hero" class="plan-hero">
-      <Image src={heroImage} alt={pkg.name} class="plan-hero-image" widths={[768, 1280, 1920]} sizes="100vw" />
+      <Image src={heroImage} alt={pkg.name} class="plan-hero-image" width={1920} widths={[640, 1024, 1600, 1920]} sizes="100vw" quality="high" priority />
       <div class="plan-hero-shade"></div>
       <div class="plan-hero-copy">
         <p>Travel Plan</p>
@@ -94,7 +107,7 @@ const estimatedTotal = pkg.price + 85
           <div class="glance-grid">
             {pkg.itinerary.slice(0, 3).map((day, index) => (
               <article class="glance-card">
-                <Image src={glanceImages[index]} alt={day.day} class="glance-image" widths={[320, 520]} sizes="220px" />
+                <Image src={glanceImages[index]} alt={day.day} class="glance-image" width={520} widths={[320, 520]} sizes="220px" quality={84} />
                 <p>Day {index + 1}</p>
                 <h3>{day.day.replace(/^Day \d+\s*[-—]\s*/, '')}</h3>
               </article>
@@ -115,7 +128,7 @@ const estimatedTotal = pkg.price + 85
               <div><dt>Rating</dt><dd><span>★★★★★</span> {pkg.rating.toFixed(1)}</dd></div>
               <div><dt>Starting from</dt><dd>${pkg.price.toLocaleString('en-US')} / person</dd></div>
             </dl>
-            <Image src={imageMap[pkg.image]} alt={pkg.location} class="information-image" widths={[420, 640]} sizes="360px" />
+            <Image src={imageMap[pkg.image]} alt={pkg.location} class="information-image" width={640} widths={[420, 640]} sizes="360px" quality={84} />
           </div>
         </section>
       </div>
@@ -141,7 +154,7 @@ const estimatedTotal = pkg.price + 85
                   ))}
                 </div>
               </div>
-              <Image src={glanceImages[index % glanceImages.length]} alt={day.day} class="day-image" widths={[360, 560]} sizes="280px" />
+              <Image src={glanceImages[index % glanceImages.length]} alt={day.day} class="day-image" width={560} widths={[360, 560]} sizes="280px" quality={84} />
             </article>
           ))}
         </div>
@@ -154,8 +167,8 @@ const estimatedTotal = pkg.price + 85
             <span>Selected for comfort</span>
           </header>
           <div class="stay-gallery">
-            <Image src={secondaryImage} alt="Trip accommodation" class="stay-main-image" widths={[640, 960]} sizes="50vw" />
-            <Image src={teamImg} alt="Trip experience" class="stay-secondary-image" widths={[360, 560]} sizes="24vw" />
+            <Image src={secondaryImage} alt="Trip accommodation" class="stay-main-image" width={960} widths={[640, 960]} sizes="50vw" quality={84} />
+            <Image src={teamImg} alt="Trip experience" class="stay-secondary-image" width={560} widths={[360, 560]} sizes="24vw" quality={84} />
           </div>
           <div class="inclusion-grid">
             <div class="included-list">
@@ -174,7 +187,7 @@ const estimatedTotal = pkg.price + 85
             <h2 id="cost-title">Estimated Travel Costs</h2>
             <span>Per person</span>
           </header>
-          <Image src={imageMap[pkg.image]} alt={pkg.name} class="cost-image" widths={[480, 720]} sizes="40vw" />
+          <Image src={imageMap[pkg.image]} alt={pkg.name} class="cost-image" width={720} widths={[480, 720]} sizes="40vw" quality={84} />
           <div class="cost-table">
             <p><span>Package</span><strong>${pkg.price.toLocaleString('en-US')}</strong></p>
             <p><span>Service &amp; planning</span><strong>$50</strong></p>

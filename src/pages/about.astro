@@ -39,7 +39,7 @@ const stats = [
 <Layout
   title="About Tripova — Personal Travel Planning"
   description="Meet Tripova and discover how we create thoughtful, personalized journeys through trusted local knowledge and travel planning shaped around you."
-  image={heroImg.src}
+  image={heroImg}
 >
   <Navbar alwaysSolid />
 
@@ -51,8 +51,10 @@ const stats = [
               src={heroImg}
               alt="A personal journey designed by Tripova"
               widths={[720, 1100, 1500]}
+              width={1500}
               sizes="(max-width: 767px) 100vw, 58vw"
-              loading="eager"
+              quality="high"
+              priority
             />
         </div>
 
@@ -73,9 +75,9 @@ const stats = [
 
     <section id="our-story" class="story-section" aria-labelledby="story-title">
       <div class="story-visuals">
-        <Image src={peopleImg} alt="Travellers planning their route together" class="story-image-main" widths={[420, 700]} />
+        <Image src={peopleImg} alt="Travellers planning their route together" class="story-image-main" width={700} widths={[420, 700]} sizes="(max-width: 1023px) 55vw, 32vw" quality={84} />
         <div class="story-image-secondary">
-          <Image src={teamImg} alt="A group enjoying a boat trip" />
+          <Image src={teamImg} alt="A group enjoying a boat trip" width={640} widths={[360, 640]} sizes="(max-width: 1023px) 45vw, 26vw" quality={84} />
           <span class="play-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="m8 5 11 7-11 7V5Z" /></svg>
           </span>
@@ -140,7 +142,7 @@ const stats = [
 
     <section class="difference-section" aria-labelledby="difference-title">
       <div class="difference-image">
-        <Image src={indonesiaImg} alt="An authentic local travel experience in Indonesia" widths={[720, 1100]} />
+        <Image src={indonesiaImg} alt="An authentic local travel experience in Indonesia" width={1100} widths={[720, 1100]} sizes="(max-width: 1023px) 100vw, 54vw" quality={84} />
         <div class="image-badge">
           <strong>100%</strong>
           <span>Made around you</span>
@@ -158,19 +160,19 @@ const stats = [
           <li><span>✓</span><div><strong>Carefully chosen partners</strong><p>Every stay, guide, and experience is selected with intention.</p></div></li>
           <li><span>✓</span><div><strong>Support that travels with you</strong><p>Helpful, human assistance before, during, and after your trip.</p></div></li>
         </ul>
-        <a href="/package">Explore our packages <b aria-hidden="true">→</b></a>
+        <a href="/package/">Explore our packages <b aria-hidden="true">→</b></a>
       </div>
     </section>
 
     <section class="about-cta" aria-labelledby="cta-title">
-      <Image src={rajaAmpatImg} alt="A tropical island ready to be explored" class="cta-image" widths={[900, 1400, 2000]} sizes="calc(100vw - 44px)" />
+      <Image src={rajaAmpatImg} alt="A tropical island ready to be explored" class="cta-image" width={2000} widths={[900, 1400, 2000]} sizes="calc(100vw - 44px)" quality={84} />
       <div class="cta-shade"></div>
       <div class="cta-copy">
         <p>Your next story starts here</p>
         <h2 id="cta-title">Where Will Your Story Take You?</h2>
         <span>Tell us what inspires you. We will turn it into a journey that feels unmistakably yours.</span>
         <div class="cta-actions">
-          <a href="/package">Find your package</a>
+          <a href="/package/">Find your package</a>
           <a href="/contact" class="secondary">Talk to a consultant</a>
         </div>
       </div>

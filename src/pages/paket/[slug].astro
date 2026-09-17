@@ -36,8 +36,10 @@ const recommended = packagesData.slice(0, 4)
 <Layout
   title={`${pkg.name} — Tripova`}
   description={pkg.description}
-  image={imageMap[pkg.gallery[0]].src}
+  image={imageMap[pkg.gallery[0]]}
   type="article"
+  noindex
+  canonicalPath={`/package/${pkg.slug}`}
   noindex
 >
   <Navbar />
@@ -51,10 +53,10 @@ const recommended = packagesData.slice(0, 4)
             {pkg.badge}
           </span>
         )}
-        <Image src={imageMap[pkg.gallery[0]]} alt={pkg.name} class="w-full h-full object-cover" />
+        <Image src={imageMap[pkg.gallery[0]]} alt={pkg.name} class="w-full h-full object-cover" width={960} widths={[640, 960]} sizes="(max-width: 1023px) 100vw, 66vw" quality="high" priority />
       </div>
       <div class="rounded-2xl overflow-hidden h-80">
-        <Image src={imageMap[pkg.gallery[1] ?? pkg.gallery[0]]} alt={pkg.name} class="w-full h-full object-cover" />
+        <Image src={imageMap[pkg.gallery[1] ?? pkg.gallery[0]]} alt={`${pkg.name} travel experience`} class="w-full h-full object-cover" width={640} widths={[420, 640]} sizes="(max-width: 1023px) 100vw, 34vw" quality={84} />
       </div>
     </div>
 

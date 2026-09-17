@@ -14,6 +14,9 @@ CLAUDE.md
 .claude/
 .codex/
 
+# superseded local product document
+Tripovia-PRD-v1.2-Final.md
+
 # editor and workspace settings
 .vscode/
 .idea/

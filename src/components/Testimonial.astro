@@ -48,7 +48,7 @@ const testimonials = [
       {testimonials.map((testimonial, index) => (
         <div class="swiper-slide" data-testimonial-index={index}>
           <article class="testimonial-card">
-            <Image src={testimonial.image} alt={testimonial.name} class="testimonial-image" />
+            <Image src={testimonial.image} alt={`${testimonial.name} on a Tripova journey`} class="testimonial-image" width={640} widths={[360, 640]} sizes="(max-width: 767px) 86vw, 34vw" quality={84} />
 
             <div class="rating" aria-label="5.0 out of 5 stars">
               <div class="stars">

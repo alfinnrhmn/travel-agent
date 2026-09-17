@@ -16,7 +16,7 @@ const formattedPrice = price.toLocaleString('en-US')
 ---
 
 <article class="package-card">
-  <Image src={image} alt={name} class="package-image" />
+  <Image src={image} alt={`${name} in ${location}`} class="package-image" width={650} widths={[325, 650]} sizes="(max-width: 719px) 325px, 25vw" quality={84} />
 
   <div class="package-heading">
     <h3>{name}</h3>
